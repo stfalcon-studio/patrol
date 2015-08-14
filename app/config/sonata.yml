@@ -1,3 +1,6 @@
+sonata_admin:
+    title:      Дорожній патруль
+
 sonata_block:
     default_contexts: [cms]
     blocks:

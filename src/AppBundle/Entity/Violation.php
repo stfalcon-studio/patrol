@@ -52,14 +52,14 @@ class Violation
     /**
      * @var float $latitude Latitude
      *
-     * @ORM\Column(type="decimal")
+     * @ORM\Column(type="decimal", precision=18, scale=15)
      */
     private $latitude;
 
     /**
      * @var float $longitude Longitude
      *
-     * @ORM\Column(type="decimal")
+     * @ORM\Column(type="decimal", precision=18, scale=15)
      */
     private $longitude;
 
@@ -71,10 +71,39 @@ class Violation
     private $approved;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="registered_violations")
+     * @var \DateTime $created
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="registeredViolations")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      **/
     private $author;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        if ($this->getId()) {
+            $title = 'Violation '.$this->getId();
+        } else {
+            $title = 'New violation';
+        }
+
+        return $title;
+    }
 
     /**
      * @return mixed
@@ -277,6 +306,22 @@ class Violation
         if ($file = $this->getAbsolutePath()) {
             @unlink($file);
         }
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**
