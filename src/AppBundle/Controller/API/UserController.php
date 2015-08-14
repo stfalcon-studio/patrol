@@ -131,11 +131,11 @@ class UserController extends Controller
         }
 
         return new JsonResponse([
-            'author'    => $user->getId(),
             'violation' => [
                 'latitude'   => $violation->getLatitude(),
                 'longitude'  => $violation->getLongitude(),
                 'image_path' => $violation->getWebPath(),
+                'author'     => $user->getId(),
             ],
         ], 201);
     }
