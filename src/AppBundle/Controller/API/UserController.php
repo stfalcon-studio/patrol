@@ -27,6 +27,17 @@ class UserController extends Controller
      * @Route("/api/register")
      * @Method({"POST"})
      *
+     * @ApiDoc(
+     *  statusCodes={
+     *         201="Returned when user successful created",
+     *         400="Returned when the user data incorrect or not valid",
+     *     },
+     *  description="User registration",
+     *  parameters={
+     *      {"name"="email", "dataType"="string", "required"=true, "description"="user email"},
+     *  }
+     * )
+     *
      * @return Response
      */
     public function postRegisterAction(Request $request)
@@ -87,10 +98,23 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param User    $user
-     * @return Response
+     *
+     * @ApiDoc(
+     *  statusCodes={
+     *         201="Returned when violation successful created",
+     *         400="Returned when the photo data is incorrect",
+     *         404="Returned when the user is not found"
+     *     },
+     *  description="Create violation by user",
+     *  parameters={
+     *      {"name"="photo", "dataType"="file", "required"=true, "description"="violation photo"},
+     *  }
+     * )
+     *
      * @Route("/api/{user}/violation/create")
      * @Method({"POST"})
      *
+     * @return JsonResponse
      */
     public function postViolationAction(Request $request, User $user)
     {
