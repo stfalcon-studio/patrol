@@ -7,6 +7,9 @@
 
 {% block fos_user_content %}
     <div class="container">
+        {% if error %}
+            <div class="alert alert-danger" role="alert" id="alert_danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
         <form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post" name="login-form">
             <h2 class="form-signin-heading">Увійдіть</h2>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
