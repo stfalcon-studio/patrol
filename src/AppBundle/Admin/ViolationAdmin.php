@@ -23,20 +23,20 @@ class ViolationAdmin extends Admin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-        // get the current Image instance
         $image = $this->getSubject();
 
-        // use $fileFieldOptions so we can add other options to the field
         $fileFieldOptions = array('required' => false);
         if ($image && ($webPath = $image->getWebPath())) {
             $container = $this->getConfigurationPool()->getContainer();
             $fullPath = $container->get('request')->getBasePath().'/'.$webPath;
 
-            $fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" />';
+            $fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" style="max-height: 320px; max-width: 480px;"/>';
         }
 
         $formMapper
-            ->add('approved')
+            ->add('approved', 'checkbox', [
+                'required' => false,
+            ])
             ->add('carNumber')
             ->add('photoFileName', 'text', $fileFieldOptions)
             ->add('author', 'entity', array('class' => 'AppBundle\Entity\User'));

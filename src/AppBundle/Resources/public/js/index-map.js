@@ -1,4 +1,4 @@
-var layerGroup = new L.FeatureGroup();
+var layerGroup = new L.MarkerClusterGroup();
 
 $(function() {
     var map = L.map('map');
@@ -38,7 +38,6 @@ $(function() {
         var markers = layerGroup.getLayers();
         markers.forEach(function(item) {
             var LatLng = item.getLatLng();
-            console.log(LatLng);
             if (LatLng['lat'] == latitude && LatLng['lng'] == longitude) {
                 item.openPopup();
             }
