@@ -52,8 +52,16 @@ class ViolationAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('carNumber')
-            ->add('approved')
+            ->add('carNumber', 'text', [
+                'editable' => true,
+            ])
+            ->add('approved', 'boolean', [
+                'editable' => true,
+            ])
+            ->add('photoImageName', 'text', [
+                'label'    => 'Фото',
+                'template' => 'admin/photo-preview.html.twig',
+            ])
             ->add('author')
             ->add('_action', 'actions', [
                 'actions' => [
