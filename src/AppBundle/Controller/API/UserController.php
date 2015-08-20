@@ -81,16 +81,17 @@ class UserController extends Controller
 
             $this->get('mailer')->send($message);
         } else {
-            return new JsonResponse(['user-id'=>$user->getId()], 200);
+            return new JsonResponse([
+                'id'    => $user->getId(),
+                'email' => $user->getEmail(),
+            ], 200);
         }
 
         $userManager->updateUser($user);
 
         return new JsonResponse([
-            'user' => [
-                'id'    => $user->getId(),
-                'email' => $user->getEmail(),
-            ],
+            'id'    => $user->getId(),
+            'email' => $user->getEmail(),
         ], 201);
     }
 
@@ -156,12 +157,10 @@ class UserController extends Controller
         }
 
         return new JsonResponse([
-            'violation' => [
-                'latitude'   => $violation->getLatitude(),
-                'longitude'  => $violation->getLongitude(),
-                'image_path' => $violation->getWebPath(),
-                'author'     => $user->getId(),
-            ],
+            'latitude'   => $violation->getLatitude(),
+            'longitude'  => $violation->getLongitude(),
+            'image_path' => $violation->getWebPath(),
+            'author'     => $user->getId(),
         ], 201);
     }
 }
