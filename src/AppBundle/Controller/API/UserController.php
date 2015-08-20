@@ -8,6 +8,7 @@ use AppBundle\Entity\Violation;
 use FOS\UserBundle\Model\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +81,7 @@ class UserController extends Controller
 
             $this->get('mailer')->send($message);
         } else {
-            return new JsonResponse('Користувач з такою елекронною поштою вже зареєстрований', 400);
+            return new JsonResponse(['user-id'=>$user->getId()], 200);
         }
 
         $userManager->updateUser($user);

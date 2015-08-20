@@ -27,7 +27,8 @@
         "doctrine/doctrine-fixtures-bundle": "^2.2"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "nelmio/api-doc-bundle": "^2.9"
     },
     "scripts": {
         "post-root-package-install": [
