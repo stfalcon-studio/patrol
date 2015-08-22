@@ -35,10 +35,10 @@ mounts:
 hooks:
     build: |
       rm web/app_dev.php
-      app/console --env=prod do:mi:mi
       app/console --env=prod assetic:dump --no-debug
     deploy: |
       app/console --env=prod cache:clear
+      app/console --env=prod do:mi:mi
 
 # The configuration of scheduled execution.
 # see http://symfony.com/doc/current/components/console/introduction.html
