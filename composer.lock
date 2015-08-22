@@ -2733,7 +2733,7 @@
             "time": "2015-08-12 15:56:39"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
