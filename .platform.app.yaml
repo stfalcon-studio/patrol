@@ -30,6 +30,7 @@ disk: 2048
 mounts:
     "/app/cache": "shared:files/cache"
     "/app/logs": "shared:files/logs"
+    "/web/uploads": "shared:files/web/uploads"
 
 # The hooks that will be performed when the package is deployed.
 hooks:
