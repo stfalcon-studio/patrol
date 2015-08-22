@@ -15,5 +15,5 @@ parameters:
     debug_toolbar: true
     debug_redirects: false
     use_assetic_controller: true
-    mailer_from: noreply@патруль.com
+    mailer_from: noreply@patrol.com
     mailer_name: патруль.com
