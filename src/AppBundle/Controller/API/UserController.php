@@ -120,6 +120,8 @@ class UserController extends Controller
      */
     public function postViolationAction(Request $request, User $user)
     {
+        $logger = $this->get('logger');
+
         $violation = new Violation();
         $file = $request->files->get('photo');
 
@@ -132,12 +134,18 @@ class UserController extends Controller
             $converter = $this->get('app.geocoordinates_converter');
             $convertedData = $converter->convert($info);
             if ($convertedData) {
+
+                $logger->error('Success save');
+
                 $lat = $convertedData['latitude'];
                 $lng = $convertedData['longitude'];
             } else {
+                $logger->error('Error file without coordinates');
                 return new JsonResponse('Файл без геокоординат', 400);
             }
         } else {
+            $logger->error('Error not valid file');
+
             return new JsonResponse('Не валідний файл', 400);
         }
 
@@ -146,6 +154,8 @@ class UserController extends Controller
         $form->submit($data);
 
         if ($form->isValid()) {
+            $logger->error('Form valid');
+
             $em = $this->getDoctrine()->getManager();
             $violation->setAuthor($user);
             $violation->setApproved(false);
@@ -154,6 +164,8 @@ class UserController extends Controller
 
             $em->persist($violation);
             $em->flush();
+        } else {
+            $logger->error('Form invalid');
         }
 
         return new JsonResponse([
