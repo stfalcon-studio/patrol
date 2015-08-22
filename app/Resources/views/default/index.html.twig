@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/index-styles.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div class="navbar navbar-custom navbar-fixed-top">
+        <div class="navbar-header"><a class="navbar-brand" href="#">Дорожній патруль</a>
+            <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="main">
+        <div class="row">
+            <div class="col-xs-10" id="left">
+                <div id="map"></div>
+            </div>
+            <div class="col-xs-2" id="list">
+                <h2>Список порушників</h2>
+                <hr>
+                {% if violations is not empty %}
+                    {% for violation in violations %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><a
+                                        id="violation_{{ violation.id }}"
+                                        data-latitude="{{ violation.latitude }}"
+                                        data-longitude="{{ violation.longitude }}"
+                                        data-image="{{ violation.photoFilename }}"
+                                        href="#">
+                                    {{ violation.carNumber }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h4>Немає порушень</h4>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+    <script src="{{ asset('bundles/app/js/index-map.js') }}"></script>
+{% endblock %}

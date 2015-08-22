@@ -1,0 +1,26 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/app/fancybox/jquery.fancybox.css') }}" type="text/css" media="screen" />
+    {% endblock stylesheets %}
+
+
+    <a id="single_image" href="/uploads/violation_images/{{ object.photoFilename }}" >Відкрити</a>
+
+
+    {% block javascripts %}
+        <script type="text/javascript" src="{{ asset('bundles/app/fancybox/jquery.fancybox.pack.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+
+                $("a#single_image").fancybox();
+
+
+                $("a#inline").fancybox({
+                    'hideOnContentClick': true
+                });
+            });
+        </script>
+    {% endblock javascripts %}
+{% endblock %}
