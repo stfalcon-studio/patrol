@@ -1,0 +1,18 @@
+services:
+  sonata.admin.violation:
+    class: AppBundle\Admin\ViolationAdmin
+    tags:
+        - { name: sonata.admin, manager_type: orm, group: "Content", label: "Violations" }
+    arguments:
+        - ~
+        - AppBundle\Entity\Violation
+        - ~
+
+  sonata.admin.user:
+      class: AppBundle\Admin\UserAdmin
+      tags:
+          - { name: sonata.admin, manager_type: orm, group: "Content", label: "Users" }
+      arguments:
+          - ~
+          - AppBundle\Entity\User
+          - ~

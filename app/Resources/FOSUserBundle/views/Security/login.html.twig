@@ -1,0 +1,23 @@
+{% extends '@FOSUser/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/login-styles.css') }}" />
+{% endblock %}
+
+{% block fos_user_content %}
+    <div class="container">
+        {% if error %}
+            <div class="alert alert-danger" role="alert" id="alert_danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <form class="form-signin" action="{{ path("fos_user_security_check") }}" method="post" name="login-form">
+            <h2 class="form-signin-heading">Увійдіть</h2>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+            <label for="inputEmail" class="sr-only">Електронна пошта</label>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="_username" required autofocus>
+            <label for="inputPassword" class="sr-only">Пароль</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="_password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Увійти</button>
+        </form>
+    </div>
+{% endblock %}
