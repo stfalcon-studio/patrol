@@ -1,4 +1,4 @@
-Symfony Standard Edition
+CHnaSymfony Standard Edition
 ========================
 
 Welcome to the Symfony Standard Edition - a fully-functional Symfony2
