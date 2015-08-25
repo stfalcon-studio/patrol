@@ -1,0 +1,30 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary photo-view-{{ object.id }}">
+        Відкрити
+    </button>
+
+    <div class="edit-violation-modal">
+    </div>
+    {% block javascripts %}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+        <script>
+            $('.photo-view-' + {{ object.id }}).on('click', function() {
+                var element = document.getElementById('myModal-'+ {{ object.id }});
+                if (!element) {
+                    $.ajax({
+                        url: Routing.generate('admin_violation_photo_modal', {'violationId': {{ object.id }}}),
+                        success: function (data) {
+                            $('.edit-violation-modal').append(data);
+                        },
+                        async:   false
+                    });
+                }
+                $('#myModal-'+{{ object.id }}).modal('show');
+            })
+        </script>
+    {% endblock %}
+{% endblock %}
