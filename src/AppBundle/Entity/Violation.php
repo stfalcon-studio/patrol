@@ -292,7 +292,7 @@ class Violation
 
         $path = explode('/', $this->photoFilename);
         $file = array_pop($path);
-        $uploadDir = $this->getUploadRootDir().'/'.implode('/', $path);
+        $uploadDir = $this->getUploadRootDir().implode('/', $path);
         $this->photo->move($uploadDir, $file);
 
         unset($this->photo);

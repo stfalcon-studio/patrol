@@ -11,7 +11,7 @@ admin:
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
+    prefix:   /admin/api-doc
 
 _sonata_admin:
     resource: .

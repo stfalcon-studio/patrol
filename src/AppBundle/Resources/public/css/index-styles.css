@@ -52,3 +52,10 @@ body{
     bottom:0;
     overflow:hidden;
 }
+
+.link-app {
+    display: block;
+    position: absolute;
+    top: 4px;
+    right: 20px;
+}

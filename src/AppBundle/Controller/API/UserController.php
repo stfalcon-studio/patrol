@@ -110,6 +110,8 @@ class UserController extends Controller
      *  description="Create violation by user",
      *  parameters={
      *      {"name"="photo", "dataType"="file", "required"=true, "description"="violation photo"},
+     *      {"name"="latitude", "dataType"="float", "required"=true, "description"="photo latitude"},
+     *      {"name"="longitude", "dataType"="float", "required"=true, "description"="photo longitude"},
      *  }
      * )
      *
@@ -128,14 +130,10 @@ class UserController extends Controller
         ];
 
         if (is_file($file)) {
-            $info = exif_read_data($file);
-            $converter = $this->get('app.geocoordinates_converter');
-            $convertedData = $converter->convert($info);
-            if ($convertedData) {
-                $lat = $convertedData['latitude'];
-                $lng = $convertedData['longitude'];
-            } else {
-                return new JsonResponse('Файл без геокоординат', 400);
+            $longitude = $request->request->get('longitude');
+            $latitude = $request->request->get('latitude');
+            if (!$longitude || !$latitude) {
+                return new JsonResponse('Файл без координат', 400);
             }
         } else {
             return new JsonResponse('Не валідний файл', 400);
@@ -149,8 +147,8 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $violation->setAuthor($user);
             $violation->setApproved(false);
-            $violation->setLatitude($lat);
-            $violation->setLongitude($lng);
+            $violation->setLatitude($latitude);
+            $violation->setLongitude($longitude);
 
             $em->persist($violation);
             $em->flush();
