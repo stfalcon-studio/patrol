@@ -48,9 +48,15 @@ body{
     position:absolute;
     right: 5px;
     left: 5px;
-    top:25px;
     bottom:0;
     overflow:hidden;
+}
+
+.link-app{
+    display: block;
+    position: absolute;
+    top: 4px;
+    right: 20px;
 }
 
 .link-app {
