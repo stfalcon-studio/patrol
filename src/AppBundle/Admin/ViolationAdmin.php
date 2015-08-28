@@ -60,13 +60,11 @@ class ViolationAdmin extends Admin
             ])
             ->add('photoImageName', 'text', [
                 'label'    => 'Фото',
-                'template' => 'admin/photo-preview.html.twig',
+                'template' => 'admin/photo-view.html.twig',
             ])
             ->add('author')
             ->add('_action', 'actions', [
                 'actions' => [
-                    'show'   => [],
-                    'edit'   => [],
                     'delete' => [],
                 ],
             ]);

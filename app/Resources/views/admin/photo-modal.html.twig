@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal fade  bs-example-modal-lg" id="myModal-{{ object.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Редагування</h4>
+            </div>
+            <div class="modal-body">
+                <img src="/uploads/violation_images/{{ object.photoFilename }}" width="800" height="600"> <br />
+                <hr />
+                <form action="{{ path('admin_edit_violation', {'violationId': object.id}) }}" method="post">
+                    <div class="form-group">
+                        <label for="carNumber">Номер авто</label>
+                        <input type="text" class="form-control" name="carNumber" id="carNumber" value="{{ object.carNumber }}">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input style="margin-left: 0;" type="checkbox" name="approved" {{ object.approved ? 'checked' : '' }}> Підтвердження
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

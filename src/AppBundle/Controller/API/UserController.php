@@ -46,7 +46,9 @@ class UserController extends Controller
         $email = $request->request->get('email');
 
         if (!\Swift_Validate::email($email)) {
-            return new JsonResponse('Електронна пошта не валідна', 400);
+            return new JsonResponse([
+                'message' => 'Електронна пошта не валідна',
+            ], 400);
         }
 
         /** @var UserManager $userManager */
@@ -133,10 +135,14 @@ class UserController extends Controller
             $longitude = $request->request->get('longitude');
             $latitude = $request->request->get('latitude');
             if (!$longitude || !$latitude) {
-                return new JsonResponse('Файл без координат', 400);
+                return new JsonResponse([
+                    'message' => 'Файл без координат',
+                ], 400);
             }
         } else {
-            return new JsonResponse('Не валідний файл', 400);
+            return new JsonResponse([
+                'message' => 'Не валідний файл',
+            ], 400);
         }
 
 

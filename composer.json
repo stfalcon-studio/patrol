@@ -26,7 +26,8 @@
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
         "ircmaxell/password-compat": "1.0.4",
-        "nelmio/api-doc-bundle": "^2.9"
+        "nelmio/api-doc-bundle": "^2.9",
+        "friendsofsymfony/jsrouting-bundle": "^1.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
