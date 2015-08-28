@@ -1,18 +1,26 @@
 <!-- Modal -->
-<div class="modal fade  bs-example-modal-lg" id="myModal-{{ object.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade  bs-example-modal-lg" id="photoModal-{{ object.id }}" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Редагування</h4>
+                <h4 class="modal-title" id="photoModalLabel">Редагування</h4>
             </div>
             <div class="modal-body">
-                <img src="/uploads/violation_images/{{ object.photoFilename }}" width="800" height="600"> <br />
+                <img id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}" width="800" height="600"> <br />
                 <hr />
-                <form action="{{ path('admin_edit_violation', {'violationId': object.id}) }}" method="post">
+                <form id="edit-form-{{ object.id }}" method="post">
                     <div class="form-group">
                         <label for="carNumber">Номер авто</label>
-                        <input type="text" class="form-control" name="carNumber" id="carNumber" value="{{ object.carNumber }}">
+                        <input type="text" class="form-control" name="carNumber" id="carNumber" value="{{ object.carNumber }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="latitude">Широта</label>
+                        <input type="text" class="form-control" name="latitude" id="latitude" value="{{ object.latitude }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Довгота</label>
+                        <input type="text" class="form-control" name="longitude" id="longitude" value="{{ object.longitude }}" required>
                     </div>
                     <div class="checkbox">
                         <label>
@@ -25,3 +33,36 @@
         </div>
     </div>
 </div>
+<style type="text/css">
+    .modal-backdrop {
+        z-index: 4!important;
+    }
+    .modal{
+        z-index: 5!important;
+    }
+    .zoomContainer {
+        z-index: 999!important;
+    }
+    </style>
+<script src="{{ asset('bundles/app/elevatezoom-master/jquery.elevatezoom.js') }}" type="text/javascript"></script>
+<script>
+    $('#photoModal-'+{{ object.id }}).on('hidden.bs.modal', function () {
+        $('.edit-violation-modal').empty();
+        $('.zoomContainer').remove();
+    });
+    $("#image-zoom-"+{{ object.id }}).elevateZoom({scrollZoom : true});
+    $("#edit-form-"+{{ object.id }}).submit(function() {
+        var form = $(this);
+        var serializedData = form.serialize();
+
+        $.ajax({
+            url: Routing.generate('admin_edit_violation', {'violationId': {{ object.id }}}),
+            data: serializedData,
+            success: function (data) {
+
+            },
+            async:   false
+        });
+        console.log('cong');
+    });
+</script>

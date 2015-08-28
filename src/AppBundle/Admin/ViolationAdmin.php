@@ -62,6 +62,12 @@ class ViolationAdmin extends Admin
                 'label'    => 'Фото',
                 'template' => 'admin/photo-view.html.twig',
             ])
+            ->add('latitude', 'text', [
+                'editable' => true,
+            ])
+            ->add('longitude', 'text', [
+                'editable' => true,
+            ])
             ->add('author')
             ->add('_action', 'actions', [
                 'actions' => [

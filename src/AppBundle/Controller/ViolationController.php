@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Violation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,7 +17,7 @@ class ViolationController extends Controller
     /**
      * @param Request $request
      * @param int     $violationId
-     * @Route("/admin/violation/{violationId}/edit", name="admin_edit_violation")
+     * @Route("/admin/violation/{violationId}/edit", name="admin_edit_violation", options={"expose"=true})
      *
      * @return Response
      */
@@ -26,12 +27,16 @@ class ViolationController extends Controller
         /** @var Violation $violation */
         $violation = $em->getRepository('AppBundle:Violation')->find($violationId);
 
-        $approved = (bool) $request->request->get('approved');
-        $carNumber = $request->request->get('carNumber');
+        $approved = (bool) $request->query->get('approved');
+        $carNumber = $request->query->get('carNumber');
+        $latitude = $request->query->get('latitude');
+        $longitude = $request->query->get('longitude');
 
-        if ($approved || $carNumber) {
+        if (!is_null($approved) && $carNumber && $latitude && $longitude) {
             $violation->setApproved($approved);
             $violation->setCarNumber($carNumber);
+            $violation->setLatitude($latitude);
+            $violation->setLongitude($longitude);
 
             $em->persist($violation);
             $em->flush();
@@ -41,7 +46,7 @@ class ViolationController extends Controller
                 ->add('sonata_flash_success', 'Порушення відредаговано');
         }
 
-        return $this->redirectToRoute('admin_app_violation_list');
+        return new JsonResponse(['status' => 'ok']);
     }
 
     /**
