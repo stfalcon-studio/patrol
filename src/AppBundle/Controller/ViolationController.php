@@ -44,6 +44,10 @@ class ViolationController extends Controller
             $this->get('session')
                 ->getFlashBag()
                 ->add('sonata_flash_success', 'Порушення відредаговано');
+        } else {
+            $this->get('session')
+                ->getFlashBag()
+                ->add('sonata_flash_success', 'Помилка! Порушення не відредаговано');
         }
 
         return new JsonResponse(['status' => 'ok']);
