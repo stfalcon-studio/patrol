@@ -19,7 +19,9 @@ $(function() {
         var popupText =
             "<div>" +
             "<h6 align='center' style='margin-bottom: 0'>" +
-            "<img src='/uploads/violation_images/" + $(this).data('image') + "' height='120px' width='240px'/>"+
+            "<a class='fancybox' caption='Номер порушника:" + $(this).text() +
+            "' href='/uploads/violation_images/" + $(this).data('image') + "'><img src='/uploads/violation_images/" +
+            $(this).data('image') + "' height='120px' width='240px'/></a>" +
             "</h6>";
 
         console.log($(this).val());
@@ -30,11 +32,10 @@ $(function() {
 
     map.addLayer(layerGroup);
 
-    $('#list a').click(function() {
+    $('#list a').click(function(e) {
         var latitude = $(this).data('latitude');
         var longitude = $(this).data('longitude');
-
-        map.panTo(new L.LatLng(latitude, longitude));
+        map.setView([latitude, longitude], 30);
         var markers = layerGroup.getLayers();
         markers.forEach(function(item) {
             var LatLng = item.getLatLng();
@@ -42,5 +43,12 @@ $(function() {
                 item.openPopup();
             }
         });
+
+    });
+
+    $('.fancybox').fancybox({
+        beforeLoad: function() {
+            this.title = $(this.element).attr('caption');
+        }
     });
 });

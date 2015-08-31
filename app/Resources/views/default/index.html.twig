@@ -6,6 +6,7 @@
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
     <link rel="stylesheet" href="{{ asset('bundles/app/css/index-styles.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/app/fancybox/jquery.fancybox.css') }}" />
 {% endblock %}
 
 {% block body %}
@@ -62,5 +63,6 @@
     {{ parent() }}
     <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+    <script src="{{ asset('bundles/app/fancybox/jquery.fancybox.pack.js') }}"></script>
     <script src="{{ asset('bundles/app/js/index-map.js') }}"></script>
 {% endblock %}
