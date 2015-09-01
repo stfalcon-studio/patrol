@@ -21,7 +21,7 @@ class Violation
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, name="photoFilename")
+     * @ORM\Column(type="string", length=255, name="photoFilename", nullable=true)
      *
      * @var string $photoFilename
      */
@@ -41,6 +41,32 @@ class Violation
      * @var File $photo
      */
     private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=255, name="VideoFilename", nullable=true)
+     *
+     * @var string $photoFilename
+     */
+    private $videoFilename;
+
+    /**
+     * @Assert\File(
+     *     mimeTypes = {"video/3gpp", "video/mp4"},
+     *     mimeTypesMessage = "Please upload a valid video"
+     * )
+     *
+     * @var File $photo
+     */
+    private $video;
+
+    /**
+     * @var \DateTime|null $date Date
+     *
+     * @ORM\Column(type="date", name="date", nullable=true )
+     *
+     * @Assert\DateTime()
+     */
+    private $date;
 
     /**
      * @var string $carNumber
@@ -262,6 +288,30 @@ class Violation
     }
 
     /**
+     * @return null|string
+     */
+    public function getVideoAbsolutePath()
+    {
+        if (is_null($this->videoFilename)) {
+            return null;
+        }
+
+        return $this->getVideoUploadRootDir().'/'.$this->videoFilename;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getVideoWebPath()
+    {
+        if (is_null($this->videoFilename)) {
+            return null;
+        }
+
+        return $this->getVideoUploadDir().$this->videoFilename;
+    }
+
+    /**
      * @return string
      */
     public function getSubPath()
@@ -278,6 +328,9 @@ class Violation
         if (null !== $this->photo) {
             $this->photoFilename = $this->getSubPath().uniqid().'.'.$this->photo->guessExtension();
         }
+        if (null !== $this->video) {
+            $this->videoFilename = $this->getSubPath().uniqid().'.'.$this->video->guessExtension();
+        }
     }
 
     /**
@@ -286,16 +339,25 @@ class Violation
      */
     public function upload()
     {
-        if (null === $this->photo) {
+        if (null !== $this->photo) {
+            $path = explode('/', $this->photoFilename);
+            $file = array_pop($path);
+            $uploadDir = $this->getUploadRootDir().implode('/', $path);
+            $this->photo->move($uploadDir, $file);
+
+            unset($this->photo);
+        }
+
+        if (null === $this->video) {
             return;
         }
 
-        $path = explode('/', $this->photoFilename);
+        $path = explode('/', $this->videoFilename);
         $file = array_pop($path);
-        $uploadDir = $this->getUploadRootDir().implode('/', $path);
-        $this->photo->move($uploadDir, $file);
+        $uploadDir = $this->getVideoUploadRootDir().implode('/', $path);
+        $this->video->move($uploadDir, $file);
 
-        unset($this->photo);
+        unset($this->video);
     }
 
     /**
@@ -303,7 +365,7 @@ class Violation
      */
     public function removeUpload()
     {
-        if ($file = $this->getAbsolutePath()) {
+        if (($file = $this->getAbsolutePath()) || ($file = $this->getVideoAbsolutePath())) {
             @unlink($file);
         }
     }
@@ -327,6 +389,54 @@ class Violation
     /**
      * @return string
      */
+    public function getVideoFilename()
+    {
+        return $this->videoFilename;
+    }
+
+    /**
+     * @param string $videoFilename
+     */
+    public function setVideoFilename($videoFilename)
+    {
+        $this->videoFilename = $videoFilename;
+    }
+
+    /**
+     * @return File
+     */
+    public function getVideo()
+    {
+        return $this->video;
+    }
+
+    /**
+     * @param File $video
+     */
+    public function setVideo($video)
+    {
+        $this->video = $video;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param \DateTime|null $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return string
+     */
     protected function getUploadDir()
     {
         return 'uploads/violation_images/';
@@ -338,5 +448,21 @@ class Violation
     protected function getUploadRootDir()
     {
         return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getVideoUploadDir()
+    {
+        return 'uploads/violation_videos/';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getVideoUploadRootDir()
+    {
+        return __DIR__.'/../../../web/'.$this->getVideoUploadDir();
     }
 }
