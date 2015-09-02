@@ -19,23 +19,37 @@ class ViolationVideoCreateType extends AbstractType
     {
         $builder
             ->add('video', 'file', [
+                'label'       => 'Відеофайл',
                 'constraints' => [
                     new NotBlank(),
                 ],
             ])
             ->add('latitude', 'hidden')
-            ->add('longitude', 'hidden')
+            ->add('longitude', 'hidden', [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+                'invalid_message' => 'Поставте мітку на карті!',
+            ])
             ->add('date', 'date', [
+                'label'    => 'Дата здійснення правопорушення',
                 'widget'   => 'single_text',
                 'required' => false,
+                'attr'     => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('carNumber', 'number', [
+                'label'    => 'Номер правопорушника',
                 'required' => false,
+                'attr'     => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('save', 'submit', [
-                'label' => 'Create',
+                'label' => 'Додати',
                 'attr'  => [
-                    'class' => 'btn-primary',
+                    'class' => 'btn-success form-control',
                 ],
             ]);
 

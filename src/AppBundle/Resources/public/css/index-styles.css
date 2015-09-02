@@ -42,13 +42,13 @@ body{
     height:100%;
 }
 
-.map-block {
-    /*width: 48%;*/
+#map-violation {
+    width: 100%;
+    height: 800px;
 }
 
-#map-violation {
-    width: auto;
-    height: 800px;
+.create-header {
+    margin-left: 15px;
 }
 
 #map {
