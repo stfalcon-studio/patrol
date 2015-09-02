@@ -1,14 +1,18 @@
 <!-- Modal -->
 <div class="modal fade  bs-example-modal-lg" id="photoModal-{{ object.id }}" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="margin-top: 55px">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="photoModalLabel">Редагування</h4>
             </div>
             <div class="modal-body">
-                <img id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}" width="800"> <br />
-                <hr />
+                <div class="container-fluid">
+                <div class="row">
+                <div class="col-md-8">
+                <img id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}" style="height: 400px; width: 100%;"> <br />
+                </div>
+                <div class="col-md-4">
                 <form id="edit-form-{{ object.id }}" method="post">
                     <div class="form-group">
                         <label for="carNumber">Номер авто</label>
@@ -29,6 +33,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Зберегти</button>
                 </form>
+                </div>
+                </div>
+                </div>
             </div>
         </div>
     </div>
@@ -50,7 +57,7 @@
         $('.edit-violation-modal').empty();
         $('.zoomContainer').remove();
     });
-    $("#image-zoom-"+{{ object.id }}).elevateZoom({scrollZoom : true});
+    $("#image-zoom-"+{{ object.id }}).elevateZoom({scrollZoom : true, zoomWindowPosition: 11});
     $("#edit-form-"+{{ object.id }}).submit(function() {
         var form = $(this);
         var serializedData = form.serialize();
