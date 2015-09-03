@@ -1,64 +1,62 @@
 <!-- Modal -->
 <div class="modal fade  bs-example-modal-lg" id="photoModal-{{ object.id }}" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="margin-top: 55px">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="photoModalLabel">Редагування</h4>
             </div>
             <div class="modal-body">
-                {% if object.photoFilename %}
-                    <img id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}" width="800"> <br />
-                {% endif %}
-                {% if object.videoFilename %}
-                <video width="800" controls>
-                    <source src="/uploads/violation_videos/{{ object.videoFilename }}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                {% endif %}
-                <hr />
-                <form id="edit-form-{{ object.id }}" method="post">
-                    <div class="form-group">
-                        <label for="carNumber">Номер авто</label>
-                        <input type="text" class="form-control" name="carNumber" id="carNumber" value="{{ object.carNumber }}" required>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8">
+                            {% if object.photoFilename %}
+                                <img class="admin-photo" id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}"> <br />
+                            {% endif %}
+                            {% if object.videoFilename %}
+                                <video width="800" controls class="admin-video">
+                                    <source src="/uploads/violation_videos/{{ object.videoFilename }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            {% endif %}
+
+                        </div>
+                        <div class="col-md-4">
+                        <form id="edit-form-{{ object.id }}" method="post">
+                            <div class="form-group">
+                                <label for="carNumber">Номер авто</label>
+                                <input type="text" class="form-control" name="carNumber" id="carNumber" value="{{ object.carNumber }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="latitude">Широта</label>
+                                <input type="text" class="form-control" name="latitude" id="latitude" value="{{ object.latitude }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="longitude">Довгота</label>
+                                <input type="text" class="form-control" name="longitude" id="longitude" value="{{ object.longitude }}" required>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input style="margin-left: 0;" type="checkbox" name="approved" {{ object.approved ? 'checked' : '' }}> Підтвердження
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Зберегти</button>
+                        </form>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="latitude">Широта</label>
-                        <input type="text" class="form-control" name="latitude" id="latitude" value="{{ object.latitude }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="longitude">Довгота</label>
-                        <input type="text" class="form-control" name="longitude" id="longitude" value="{{ object.longitude }}" required>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input style="margin-left: 0;" type="checkbox" name="approved" {{ object.approved ? 'checked' : '' }}> Підтвердження
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Зберегти</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<style type="text/css">
-    .modal-backdrop {
-        z-index: 4!important;
-    }
-    .modal{
-        z-index: 5!important;
-    }
-    .zoomContainer {
-        z-index: 999!important;
-    }
-    </style>
+<link rel="stylesheet" href="{{ asset('bundles/app/css/admin-styles.css') }}">
 <script src="{{ asset('bundles/app/elevatezoom-master/jquery.elevatezoom.js') }}" type="text/javascript"></script>
 <script>
     $('#photoModal-'+{{ object.id }}).on('hidden.bs.modal', function () {
         $('.edit-violation-modal').empty();
         $('.zoomContainer').remove();
     });
-    $("#image-zoom-"+{{ object.id }}).elevateZoom({scrollZoom : true});
+    $("#image-zoom-"+{{ object.id }}).elevateZoom({scrollZoom : true, zoomWindowPosition: 11});
     $("#edit-form-"+{{ object.id }}).submit(function() {
         var form = $(this);
         var serializedData = form.serialize();

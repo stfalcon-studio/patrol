@@ -1,0 +1,16 @@
+.modal-backdrop {
+    z-index: 4!important;
+}
+.modal{
+    z-index: 5!important;
+}
+.zoomContainer {
+    z-index: 999!important;
+}
+.admin-video {
+    width: 100%;
+}
+.admin-photo {
+    height: 400px;
+    width: 100%;
+}
