@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/index-styles.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+    <script src="{{ asset('bundles/app/js/violation-video-create.js') }}"></script>
+{% endblock javascripts %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="create-header">Додати порушення</h3>
+        <div class="col-md-2">
+            <div class="form-group">
+                {{ form_start(form) }}
+                {% if form.vars.errors|length %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form) }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.date) }}
+                {{ form_widget(form.date) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.carNumber) }}
+                {{ form_widget(form.carNumber) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.video) }}
+                {{ form_widget(form.video) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <div class="map-block">
+                    <label for="map-violation"><p>Відзначте на карті місце здійснення правопорушення:</p></label>
+                    <div id="map-violation"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
