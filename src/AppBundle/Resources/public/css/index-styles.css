@@ -42,6 +42,15 @@ body{
     height:100%;
 }
 
+#map-violation {
+    width: 100%;
+    height: 800px;
+}
+
+.create-header {
+    margin-left: 15px;
+}
+
 #map {
     width:100%;
     height:100%;
