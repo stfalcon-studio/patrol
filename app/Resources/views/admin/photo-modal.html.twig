@@ -13,6 +13,16 @@
                 <img id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}" style="height: 400px; width: 100%;"> <br />
                 </div>
                 <div class="col-md-4">
+                {% if object.photoFilename %}
+                    <img id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}" width="800"> <br />
+                {% endif %}
+                {% if object.videoFilename %}
+                <video width="800" controls>
+                    <source src="/uploads/violation_videos/{{ object.videoFilename }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                {% endif %}
+                <hr />
                 <form id="edit-form-{{ object.id }}" method="post">
                     <div class="form-group">
                         <label for="carNumber">Номер авто</label>

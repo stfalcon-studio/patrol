@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * Class ViolationController
@@ -47,7 +48,7 @@ class ViolationController extends Controller
         } else {
             $this->get('session')
                 ->getFlashBag()
-                ->add('sonata_flash_success', 'Помилка! Порушення не відредаговано');
+                ->add('sonata_flash_error', 'Помилка! Порушення не відредаговано');
         }
 
         return new JsonResponse(['status' => 'ok']);
@@ -67,6 +68,34 @@ class ViolationController extends Controller
 
         return $this->render(':admin:photo-modal.html.twig', [
             'object' => $violation,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/add-video-violation", name="add_video_violation")
+     *
+     * @return Response
+     */
+    public function createVideoViolationAction(Request $request)
+    {
+        $form = $this->createForm('violation_video_form', new Violation());
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var Violation $violation */
+            $violation = $form->getData();
+            $violation->setApproved(false);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($violation);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('notice', 'Your item was added!');
+
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+
+        return $this->render('@App/violation/create_video_violation.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
