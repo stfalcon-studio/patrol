@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -136,7 +137,7 @@ class UserController extends Controller
             $latitude = $request->request->get('latitude');
             if (!$longitude || !$latitude) {
                 return new JsonResponse([
-                    'message' => 'Файл без координат',
+                    'message' => 'Не вказано координати',
                 ], 400);
             }
         } else {
@@ -164,6 +165,81 @@ class UserController extends Controller
             'latitude'   => $violation->getLatitude(),
             'longitude'  => $violation->getLongitude(),
             'image_path' => $violation->getWebPath(),
+            'author'     => $user->getId(),
+        ], 201);
+    }
+
+    /**
+     * Create video violation
+     *
+     * @param Request $request
+     * @param User    $user
+     *
+     * @ApiDoc(
+     *  statusCodes={
+     *         201="Returned when violation successful created",
+     *         400="Returned when the data is incorrect",
+     *         404="Returned when the user is not found"
+     *     },
+     *  description="Create violation video by user",
+     *  parameters={
+     *      {"name"="video", "dataType"="file", "required"=true, "description"="violation video"},
+     *      {"name"="carNumber", "dataType"="string", "required"=false, "description"="car number of offender"},
+     *      {"name"="date", "dataType"="date", "required"=false, "description"="date of violation"},
+     *      {"name"="latitude", "dataType"="float", "required"=true, "description"="photo latitude"},
+     *      {"name"="longitude", "dataType"="float", "required"=true, "description"="photo longitude"},
+     *  }
+     * )
+     *
+     * @Route("/api/{user}/violation-video/create")
+     * @Method({"POST"})
+     *
+     * @return JsonResponse
+     */
+    public function postViolationVideoAction(Request $request, User $user)
+    {
+        $violation = new Violation();
+        /** @var File $file */
+        $file = $request->files->get('video');
+
+        $data = [
+            'video' => $file,
+        ];
+
+        if (is_file($file)) {
+            $data['longitude'] = $request->request->get('longitude');
+            $data['latitude'] = $request->request->get('latitude');
+            $data['date'] = $request->request->get('date');
+            $data['carNumber'] = $request->request->get('carNumber');
+            if (!$data['longitude'] || !$data['latitude']) {
+                return new JsonResponse([
+                    'message' => 'Не вказано координати',
+                ], 400);
+            }
+        } else {
+            return new JsonResponse([
+                'message' => 'Не валідний файл',
+            ], 400);
+        }
+
+        $form = $this->createForm('violation_video_form', $violation, array('csrf_protection' => false));
+        $form->submit($data);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $violation->setAuthor($user);
+            $violation->setApproved(false);
+            $violation->setLatitude($data['latitude']);
+            $violation->setLongitude($data['longitude']);
+
+            $em->persist($violation);
+            $em->flush();
+        }
+
+        return new JsonResponse([
+            'latitude'   => $violation->getLatitude(),
+            'longitude'  => $violation->getLongitude(),
+            'video_path' => $violation->getVideoWebPath(),
             'author'     => $user->getId(),
         ], 201);
     }

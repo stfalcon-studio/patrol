@@ -59,7 +59,7 @@ class ViolationAdmin extends Admin
                 'editable' => true,
             ])
             ->add('photoImageName', 'text', [
-                'label'    => 'Фото',
+                'label'    => 'Фото/Відео',
                 'template' => 'admin/photo-view.html.twig',
             ])
             ->add('latitude', 'text', [
