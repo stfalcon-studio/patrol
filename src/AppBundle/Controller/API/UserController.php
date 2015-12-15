@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\API;
 
-
 use AppBundle\Entity\User;
 use AppBundle\Entity\Violation;
 use FOS\UserBundle\Model\UserManager;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class UserController
@@ -206,6 +204,12 @@ class UserController extends Controller
             'video' => $file,
         ];
 
+        if (!$user) {
+            return new JsonResponse([
+                'message' => 'Даного користувача не існує',
+            ], 400);
+        }
+
         if (is_file($file)) {
             $data['longitude'] = $request->request->get('longitude');
             $data['latitude'] = $request->request->get('latitude');
@@ -234,6 +238,8 @@ class UserController extends Controller
 
             $em->persist($violation);
             $em->flush();
+        } else {
+            return new JsonResponse(['message' => 'Не валідні дані', 400]);
         }
 
         return new JsonResponse([

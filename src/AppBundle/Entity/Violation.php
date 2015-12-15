@@ -50,11 +50,6 @@ class Violation
     private $videoFilename;
 
     /**
-     * @Assert\File(
-     *     mimeTypes = {"video/3gpp", "video/mp4"},
-     *     mimeTypesMessage = "Please upload a valid video"
-     * )
-     *
      * @var File $photo
      */
     private $video;
