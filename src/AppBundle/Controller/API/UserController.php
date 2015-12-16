@@ -8,6 +8,7 @@ use FOS\UserBundle\Model\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -199,6 +200,8 @@ class UserController extends Controller
         $violation = new Violation();
         /** @var File $file */
         $file = $request->files->get('video');
+        /** @var Logger $logger */
+        $logger = $this->get('logger');
 
         $data = [
             'video' => $file,
@@ -216,11 +219,15 @@ class UserController extends Controller
             $data['date'] = $request->request->get('date');
             $data['carNumber'] = $request->request->get('carNumber');
             if (!$data['longitude'] || !$data['latitude']) {
+                $logger->error('Не вказано координати');
+
                 return new JsonResponse([
                     'message' => 'Не вказано координати',
                 ], 400);
             }
         } else {
+            $logger->error('Не валідний файл');
+
             return new JsonResponse([
                 'message' => 'Не валідний файл',
             ], 400);
@@ -239,6 +246,8 @@ class UserController extends Controller
             $em->persist($violation);
             $em->flush();
         } else {
+            $logger->error($form->getErrorsAsString());
+
             return new JsonResponse(['message' => 'Не валідні дані', 400]);
         }
 
