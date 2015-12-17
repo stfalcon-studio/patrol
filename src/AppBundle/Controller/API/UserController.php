@@ -198,79 +198,77 @@ class UserController extends Controller
     public function postViolationVideoAction(Request $request, User $user)
     {
         $logger = $this->get('logger');
-        try {
-            $violation = new Violation();
-            /** @var File $file */
-            $file = $request->files->get('video');
+        $violation = new Violation();
+        /** @var File $file */
+        $file = $request->files->get('video');
 
-            $data = [
-                'video' => $file,
-            ];
+        $data = [
+            'video' => $file,
+        ];
 
-            if (!$user) {
-                $logger->error('Даного користувача не існує');
-
-                return new JsonResponse(
-                    [
-                        'message' => 'Даного користувача не існує',
-                    ], 400
-                );
-            }
-
-            if (is_file($file)) {
-                $data['longitude'] = $request->request->get('longitude');
-                $data['latitude'] = $request->request->get('latitude');
-                $data['date'] = $request->request->get('date');
-                $data['carNumber'] = $request->request->get('carNumber');
-                if (!$data['longitude'] || !$data['latitude']) {
-                    $logger->error('Не вказано координати');
-
-                    return new JsonResponse(
-                        [
-                            'message' => 'Не вказано координати',
-                        ], 400
-                    );
-                }
-            } else {
-                $logger->error('Не валідний файл');
-
-                return new JsonResponse(
-                    [
-                        'message' => 'Не валідний файл',
-                    ], 400
-                );
-            }
-
-            $form = $this->createForm('violation_video_form', $violation, array('csrf_protection' => false));
-            $form->submit($data);
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $violation->setAuthor($user);
-                $violation->setApproved(false);
-                $violation->setLatitude($data['latitude']);
-                $violation->setLongitude($data['longitude']);
-
-                $em->persist($violation);
-                $em->flush();
-            } else {
-                $logger->error($form->getErrorsAsString());
-
-                return new JsonResponse(['message' => 'Не валідні дані', 400]);
-            }
+        if (!$user) {
+            $logger->error('Даного користувача не існує');
 
             return new JsonResponse(
                 [
-                    'latitude' => $violation->getLatitude(),
-                    'longitude' => $violation->getLongitude(),
-                    'video_path' => $violation->getVideoWebPath(),
-                    'author' => $user->getId(),
-                ], 201
+                    'message' => 'Даного користувача не існує',
+                ],
+                400
             );
-        } catch (\Exception $e) {
-            $logger->error($e->getMessage());
-
-            return false;
         }
+
+        if (is_file($file)) {
+            $data['longitude'] = $request->request->get('longitude');
+            $data['latitude'] = $request->request->get('latitude');
+            $data['date'] = $request->request->get('date');
+            $data['carNumber'] = $request->request->get('carNumber');
+            if (!$data['longitude'] || !$data['latitude']) {
+                $logger->error('Не вказано координати');
+
+                return new JsonResponse(
+                    [
+                        'message' => 'Не вказано координати',
+                    ],
+                    400
+                );
+            }
+        } else {
+            $logger->error('Не валідний файл');
+
+            return new JsonResponse(
+                [
+                    'message' => 'Не валідний файл',
+                ],
+                400
+            );
+        }
+
+        $form = $this->createForm('violation_video_form', $violation, array('csrf_protection' => false));
+        $form->submit($data);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $violation->setAuthor($user);
+            $violation->setApproved(false);
+            $violation->setLatitude($data['latitude']);
+            $violation->setLongitude($data['longitude']);
+
+            $em->persist($violation);
+            $em->flush();
+        } else {
+            $logger->error($form->getErrorsAsString());
+
+            return new JsonResponse(['message' => 'Не валідні дані', 400]);
+        }
+
+        return new JsonResponse(
+            [
+                'latitude' => $violation->getLatitude(),
+                'longitude' => $violation->getLongitude(),
+                'video_path' => $violation->getVideoWebPath(),
+                'author' => $user->getId(),
+            ],
+            201
+        );
     }
 }
