@@ -213,7 +213,7 @@ class UserController extends Controller
                 [
                     'message' => 'Даного користувача не існує',
                 ],
-                400
+                404
             );
         }
 
