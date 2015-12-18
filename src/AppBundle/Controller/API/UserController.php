@@ -217,27 +217,16 @@ class UserController extends Controller
             );
         }
 
-        if (is_file($file)) {
-            $data['longitude'] = $request->request->get('longitude');
-            $data['latitude'] = $request->request->get('latitude');
-            $data['date'] = $request->request->get('date');
-            $data['carNumber'] = $request->request->get('carNumber');
-            if (!$data['longitude'] || !$data['latitude']) {
-                $logger->error('Не вказано координати');
-
-                return new JsonResponse(
-                    [
-                        'message' => 'Не вказано координати',
-                    ],
-                    400
-                );
-            }
-        } else {
-            $logger->error('Не валідний файл');
+        $data['longitude'] = $request->request->get('longitude');
+        $data['latitude'] = $request->request->get('latitude');
+        $data['date'] = $request->request->get('date');
+        $data['carNumber'] = $request->request->get('carNumber');
+        if (!$data['longitude'] || !$data['latitude']) {
+            $logger->error('Не вказано координати');
 
             return new JsonResponse(
                 [
-                    'message' => 'Не валідний файл',
+                    'message' => 'Не вказано координати',
                 ],
                 400
             );
@@ -258,7 +247,7 @@ class UserController extends Controller
         } else {
             $logger->error($form->getErrorsAsString());
 
-            return new JsonResponse(['message' => 'Не валідні дані', 400]);
+            return new JsonResponse(['message' => $form->getErrorsAsString(), 400]);
         }
 
         return new JsonResponse(
