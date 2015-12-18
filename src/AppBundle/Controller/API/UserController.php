@@ -197,17 +197,6 @@ class UserController extends Controller
      */
     public function postViolationVideoAction(Request $request, User $user)
     {
-        $reqDump = print_r($_REQUEST, true);
-        $fileDump = print_r($_FILES, true);
-        $fp = fopen(__DIR__.'/../../../../web/request.log', 'a');
-        $date = new \DateTime();
-        fwrite($fp, "\n");
-        fwrite($fp, $date->format('d:m:y h:i:s').' ');
-        fwrite($fp, $request);
-        fwrite($fp, $reqDump);
-        fwrite($fp, $fileDump);
-        fwrite($fp, '-----------------------------------------------------------------------------------------');
-        fclose($fp);
         $logger = $this->get('logger');
         $violation = new Violation();
         /** @var File $file */
