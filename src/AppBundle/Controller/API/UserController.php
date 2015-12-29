@@ -59,7 +59,7 @@ class UserController extends Controller
         $fromAddress = $this->container->getParameter('mailer_from');
         $fromName = $this->container->getParameter('mailer_name');
         $message = \Swift_Message::newInstance()
-            ->setSubject('Дорожній патруль')
+            ->setSubject('Громадський патруль')
             ->setFrom(array($fromAddress => $fromName))
             ->setTo(array($email));
 
@@ -71,13 +71,7 @@ class UserController extends Controller
             $user->setEnabled(true);
 
             $message->setBody(
-                $this->renderView(
-                    'AppBundle:Mail:email_password.html.twig',
-                    array(
-                        'user' => $user,
-                        'password' => $password,
-                    )
-                ),
+                $this->renderView('AppBundle:mail:registration_mail.html.twig'),
                 'text/html'
             );
 

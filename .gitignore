@@ -11,5 +11,6 @@
 /composer.phar
 /web/uploads/*
 !web/uploads/.gitkeep
+/app/config/parameters.yml
 
 
