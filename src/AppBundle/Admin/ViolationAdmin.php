@@ -39,6 +39,7 @@ class ViolationAdmin extends Admin
             ])
             ->add('carNumber')
             ->add('photoFileName', 'text', $fileFieldOptions)
+            ->add('date', 'date')
             ->add('author', 'entity', array('class' => 'AppBundle\Entity\User'));
     }
 
@@ -68,6 +69,7 @@ class ViolationAdmin extends Admin
             ->add('longitude', 'text', [
                 'editable' => true,
             ])
+            ->add('date', 'date')
             ->add('author')
             ->add('_action', 'actions', [
                 'actions' => [

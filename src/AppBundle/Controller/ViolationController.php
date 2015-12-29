@@ -55,12 +55,16 @@ class ViolationController extends Controller
         $carNumber = $request->get('carNumber');
         $latitude = $request->get('latitude');
         $longitude = $request->get('longitude');
+        $date = $request->get('date');
 
         if (!is_null($approved) && $carNumber && $latitude && $longitude) {
             $violation->setApproved($approved);
             $violation->setCarNumber($carNumber);
             $violation->setLatitude($latitude);
             $violation->setLongitude($longitude);
+            if ($date) {
+                $violation->setDate(new \DateTime($date));
+            }
 
             $em->persist($violation);
             $em->flush();
