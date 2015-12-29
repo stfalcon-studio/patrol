@@ -13,13 +13,6 @@
                             {% if object.photoFilename %}
                                 <img class="admin-photo" id="image-zoom-{{ object.id }}" data-zoom-image="/uploads/violation_images/{{ object.photoFilename }}" src="/uploads/violation_images/{{ object.photoFilename }}"> <br />
                             {% endif %}
-                            {% if object.videoFilename %}
-                                <video width="800" controls class="admin-video">
-                                    <source src="/uploads/violation_videos/{{ object.videoFilename }}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            {% endif %}
-
                         </div>
                         <div class="col-md-4">
                         <form id="edit-form-{{ object.id }}" method="post">
@@ -52,12 +45,12 @@
 <link rel="stylesheet" href="{{ asset('bundles/app/css/admin-styles.css') }}">
 <script src="{{ asset('bundles/app/elevatezoom-master/jquery.elevatezoom.js') }}" type="text/javascript"></script>
 <script>
-    $('#photoModal-'+{{ object.id }}).on('hidden.bs.modal', function () {
+    $('#photoModal-{{ object.id }}').on('hidden.bs.modal', function () {
         $('.edit-violation-modal').empty();
         $('.zoomContainer').remove();
     });
-    $("#image-zoom-"+{{ object.id }}).elevateZoom({scrollZoom : true, zoomWindowPosition: 11});
-    $("#edit-form-"+{{ object.id }}).submit(function() {
+    $('#image-zoom-{{ object.id }}').elevateZoom({scrollZoom : true, zoomWindowPosition: 11});
+    $('#edit-form-{{ object.id }}').submit(function() {
         var form = $(this);
         var serializedData = form.serialize();
 
