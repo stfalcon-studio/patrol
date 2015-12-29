@@ -2,29 +2,35 @@
 
 {% block field %}
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary photo-view-{{ object.id }}">
-        Відкрити
-    </button>
+    {% if object.photoFilename %}
+        <button type="button" class="btn btn-primary photo-view-{{ object.id }}">
+            Відкрити
+        </button>
 
-    <div class="edit-violation-modal">
-    </div>
-    {% block javascripts %}
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-        <script>
-            $('.photo-view-' + {{ object.id }}).on('click', function() {
-                var element = document.getElementById('myModal-'+ {{ object.id }});
-                if (!element) {
-                    $.ajax({
-                        url: Routing.generate('admin_violation_photo_modal', {'violationId': {{ object.id }}}),
-                        success: function (data) {
-                            $('.edit-violation-modal').append(data);
-                        },
-                        async:   false
-                    });
-                }
-                $('#photoModal-'+{{ object.id }}).modal('show');
-            });
-        </script>
-    {% endblock %}
+        <div class="edit-violation-modal">
+        </div>
+        {% block javascripts %}
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+            <script>
+                $('.photo-view-{{ object.id }}').on('click', function() {
+                    var element = document.getElementById('myModal-{{  object.id }}');
+                    if (!element) {
+                        $.ajax({
+                            url: Routing.generate('admin_violation_photo_modal', {'violationId': {{ object.id }}}),
+                            success: function (data) {
+                                $('.edit-violation-modal').append(data);
+                            },
+                            async:   false
+                        });
+                    }
+                    $('#photoModal-{{ object.id }}').modal('show');
+                });
+            </script>
+        {% endblock %}
+    {% elseif object.videoFilename%}
+        <a class="btn btn-primary photo-view-{{ object.id }}" href="{{ path('violation_video', {'violationId': object.id}) }}">
+            Відкрити
+        </a>
+    {% endif %}
 {% endblock %}

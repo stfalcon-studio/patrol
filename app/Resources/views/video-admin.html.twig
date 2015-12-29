@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/index-styles.css') }}" />
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="//releases.flowplayer.org/6.0.4/skin/minimalist.css">
+    <script src="//releases.flowplayer.org/6.0.4/flowplayer.min.js"></script>
+{% endblock javascripts %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-10">
+                <br />
+                <div class="form-group">
+                    {% if violation.videoFilename %}
+                        <div class="flowplayer">
+                            <video height="480" width="640">
+                                <source type="video/mp4"
+                                        src="/uploads/violation_videos/{{ violation.videoFilename }}">
+                            </video>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <br />
+                <form id="edit-form-{{ violation.id }}" method="post" action="{{ path('admin_edit_violation', {'violationId': violation.id}) }}">
+                    <div class="form-group">
+                        <label for="carNumber">Номер авто</label>
+                        <input type="text" class="form-control" name="carNumber" id="carNumber" value="{{ violation.carNumber }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="latitude">Широта</label>
+                        <input type="text" class="form-control" name="latitude" id="latitude" value="{{ violation.latitude }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude">Довгота</label>
+                        <input type="text" class="form-control" name="longitude" id="longitude" value="{{ violation.longitude }}" required>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="approved" {{ violation.approved ? 'checked' : '' }}> Підтвердження
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Зберегти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+

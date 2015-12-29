@@ -18,20 +18,43 @@ class ViolationController extends Controller
     /**
      * @param Request $request
      * @param int     $violationId
+     *
+     * @Route("violation/{violationId}/video", name="violation_video")
+     *
+     * @return Response
+     */
+    public function violationVideo(Request $request, $violationId)
+    {
+        $violation = $this->getDoctrine()->getRepository('AppBundle:Violation')->find($violationId);
+        $session = $request->getSession();
+        $session->set('referrer', $request->server->get('HTTP_REFERER'));
+
+        return $this->render('video-admin.html.twig', [
+            'violation' => $violation,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param int     $violationId
      * @Route("/admin/violation/{violationId}/edit", name="admin_edit_violation", options={"expose"=true})
      *
      * @return Response
      */
     public function adminUpdateAction(Request $request, $violationId)
     {
+        $user = $this->getUser();
+        if (!$user->hasRole('ROLE_SUPER_ADMIN')) {
+            return $this->createAccessDeniedException();
+        }
         $em = $this->getDoctrine()->getManager();
         /** @var Violation $violation */
         $violation = $em->getRepository('AppBundle:Violation')->find($violationId);
 
-        $approved = (bool) $request->query->get('approved');
-        $carNumber = $request->query->get('carNumber');
-        $latitude = $request->query->get('latitude');
-        $longitude = $request->query->get('longitude');
+        $approved = (bool) $request->get('approved');
+        $carNumber = $request->get('carNumber');
+        $latitude = $request->get('latitude');
+        $longitude = $request->get('longitude');
 
         if (!is_null($approved) && $carNumber && $latitude && $longitude) {
             $violation->setApproved($approved);
@@ -51,7 +74,13 @@ class ViolationController extends Controller
                 ->add('sonata_flash_error', 'Помилка! Порушення не відредаговано');
         }
 
-        return new JsonResponse(['status' => 'ok']);
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['status' => 'ok']);
+        } else {
+            $session = $request->getSession();
+
+            return $this->redirect($session->get('referrer'));
+        }
     }
 
     /**
