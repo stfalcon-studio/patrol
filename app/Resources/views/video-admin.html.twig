@@ -46,7 +46,9 @@
                     </div>
                     <div class="form-group">
                         <label for="date">Дата</label>
-                        <input type="date" class="form-control" name="date" id="date" value="{{ violation.date.format('Y-m-d') }}" required>
+                        <input type="date" class="form-control" name="date" id="date"
+                               {% if violation.date is not null %} value="{{ violation.date.format('Y-m-d') }}" {% endif %}
+                        required>
                     </div>
                     <div class="checkbox">
                         <label>

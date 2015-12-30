@@ -69,7 +69,7 @@ class ViolationAdmin extends Admin
             ->add('longitude', 'text', [
                 'editable' => true,
             ])
-            ->add('date', 'date')
+            ->add('date', 'datetime', array('date_format' => 'yyyy-MM-dd HH:mm:ss'))
             ->add('author')
             ->add('_action', 'actions', [
                 'actions' => [

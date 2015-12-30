@@ -6,10 +6,20 @@
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css' rel='stylesheet' />
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css' rel='stylesheet' />
     <link rel="stylesheet" href="{{ asset('bundles/app/css/index-styles.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/app/fancybox/jquery.fancybox.css') }}" />
+    <!-- a player skin as usual -->
+    <link rel="stylesheet" href="//releases.flowplayer.org/6.0.4/skin/minimalist.css">
+    <!-- the quality selector stylesheet -->
+    <link rel="stylesheet" href="//flowplayer.org/drive/quality-selector.css">
+    <!-- Add fancyBox main stylesheet -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/app/fancybox/jquery.fancybox.css') }}" media="screen">
 {% endblock %}
 
 {% block body %}
+    <style>
+        .fancybox-wrap {
+            width: 80% !important;
+        }
+    </style>
     <div class="container-fluid" id="main">
         <div class="row">
             <div class="col-xs-10" id="left">
@@ -26,6 +36,7 @@
                                         data-latitude="{{ violation.latitude }}"
                                         data-longitude="{{ violation.longitude }}"
                                         data-image="{{ violation.photoFilename }}"
+                                        data-video="{{ violation.videoFilename }}"
                                         href="#">
                                     {{ violation.carNumber }}
                                 </a>
@@ -45,8 +56,16 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+
     <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
-    <script src="{{ asset('bundles/app/fancybox/jquery.fancybox.pack.js') }}"></script>
     <script src="{{ asset('bundles/app/js/index-map.js') }}"></script>
+    <!-- the Flowplayer script as usual -->
+    <script src="//releases.flowplayer.org/6.0.4/flowplayer.min.js"></script>
+    <!-- The hlsjs plugin for playback of HLS without Flash in modern browsers -->
+    <script src="//releases.flowplayer.org/hlsjs/flowplayer.hlsjs.min.js"></script>
+    <!-- the quality selector plugin -->
+    <script src="//flowplayer.org/drive/quality-selector-v6.js"></script>
+    <!-- Add fancyBox main JS -->
+    <script src="{{ asset('bundles/app/fancybox/jquery.fancybox.js') }}"></script>
 {% endblock %}

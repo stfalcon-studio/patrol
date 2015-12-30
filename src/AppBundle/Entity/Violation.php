@@ -62,7 +62,7 @@ class Violation
     /**
      * @var \DateTime|null $date Date
      *
-     * @ORM\Column(type="date", name="date", nullable=true )
+     * @ORM\Column(type="datetime", name="date", nullable=true)
      *
      * @Assert\DateTime()
      */
