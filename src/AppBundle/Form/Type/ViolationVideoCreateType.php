@@ -31,7 +31,7 @@ class ViolationVideoCreateType extends AbstractType
                 ],
                 'invalid_message' => 'Поставте мітку на карті!',
             ])
-            ->add('date', 'datetime', [
+            ->add('date', 'date', [
                 'label'    => 'Дата здійснення правопорушення',
                 'widget'   => 'single_text',
                 'required' => false,
@@ -39,7 +39,7 @@ class ViolationVideoCreateType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('carNumber', 'number', [
+            ->add('carNumber', 'text', [
                 'label'    => 'Номер правопорушника',
                 'required' => false,
                 'attr'     => [
