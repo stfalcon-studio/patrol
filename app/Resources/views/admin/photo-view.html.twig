@@ -29,8 +29,16 @@
             </script>
         {% endblock %}
     {% elseif object.videoFilename%}
-        <a class="btn btn-primary photo-view-{{ object.id }}" href="{{ path('violation_video', {'violationId': object.id}) }}">
-            Відкрити
-        </a>
+        {% if object.status == 'READY'|enum_constant %}
+            <a class="btn btn-primary photo-view-{{ object.id }}" href="{{ path('violation_video', {'violationId': object.id}) }}">
+                Відкрити
+            </a>
+        {% endif %}
+        {% if object.status == 'WAITING'|enum_constant %}
+            <span class="label label-danger">Очікує на конвертацію</span>
+        {% endif %}
+        {% if object.status == 'CONVERTING'|enum_constant %}
+            <span class="label label-warning">Конвертується</span>
+        {% endif %}
     {% endif %}
 {% endblock %}

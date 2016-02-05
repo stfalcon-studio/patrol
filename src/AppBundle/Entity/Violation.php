@@ -2,14 +2,16 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\DBAL\Types\VideoStatusType;
 use Doctrine\ORM\Mapping as ORM;
+use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="violations")
+ * @ORM\Table(name="violations", indexes={@ORM\Index(name="video_idx", columns={"videoFilename"})})
  */
 class Violation
 {
@@ -30,12 +32,12 @@ class Violation
     /**
      *
      * @Assert\Image(
-     *      maxWidth = 5000,
+     *      maxWidth  = 5000,
      *      maxHeight = 5000,
      *      mimeTypes = {"image/jpeg", "image/png"},
-     *      maxSize = "5M",
+     *      maxSize   = "5M",
      *      minHeight = 100,
-     *      minWidth = 100
+     *      minWidth  = 100
      * )
      *
      * @var File $photo
@@ -90,20 +92,28 @@ class Violation
     private $longitude;
 
     /**
-     * @var bool $approved
+     * @var bool $approved Approved
      *
      * @ORM\Column(type="boolean")
      */
     private $approved;
 
     /**
-     * @var \DateTime $created
+     * @var \DateTime $created Created at
      *
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @ORM\Column(name="status", type="VideoStatusType", nullable=false)
+     * @DoctrineAssert\Enum(entity="AppBundle\DBAL\Types\VideoStatusType")
+     */
+    private $status = VideoStatusType::READY;
+
+    /**
+     * @var User $author Author
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="registeredViolations")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      **/
@@ -330,6 +340,9 @@ class Violation
         }
         if (null !== $this->video) {
             $this->videoFilename = $this->getSubPath().uniqid().'.'.$this->video->guessExtension();
+            if ($this->video->getMimeType() == 'video/3gpp') {
+                $this->setStatus(VideoStatusType::WAITING);
+            }
         }
     }
 
@@ -435,9 +448,25 @@ class Violation
     }
 
     /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
      * @return string
      */
-    protected function getUploadDir()
+    public function getUploadDir()
     {
         return 'uploads/violation_images/';
     }
@@ -445,7 +474,7 @@ class Violation
     /**
      * @return string
      */
-    protected function getUploadRootDir()
+    public function getUploadRootDir()
     {
         return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
@@ -453,7 +482,7 @@ class Violation
     /**
      * @return string
      */
-    protected function getVideoUploadDir()
+    public function getVideoUploadDir()
     {
         return 'uploads/violation_videos/';
     }
@@ -461,7 +490,7 @@ class Violation
     /**
      * @return string
      */
-    protected function getVideoUploadRootDir()
+    public function getVideoUploadRootDir()
     {
         return __DIR__.'/../../../web/'.$this->getVideoUploadDir();
     }

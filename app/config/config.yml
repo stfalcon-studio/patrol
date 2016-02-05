@@ -63,6 +63,10 @@ doctrine:
         password: "%database_password%"
         server_version: 5.5 # Database server version.
         charset:  UTF8
+        mapping_types:
+            enum: string
+        types:
+            VideoStatusType: AppBundle\DBAL\Types\VideoStatusType
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"

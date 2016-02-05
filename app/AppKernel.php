@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Fresh\DoctrineEnumBundle\FreshDoctrineEnumBundle(),
 
             new AppBundle\AppBundle(),
         );
