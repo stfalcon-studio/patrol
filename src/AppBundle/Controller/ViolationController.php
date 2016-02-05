@@ -26,10 +26,6 @@ class ViolationController extends Controller
      */
     public function violationVideo(Request $request, $violationId)
     {
-        $user = $this->getUser();
-        if (!$user || !$user->hasRole('ROLE_SUPER_ADMIN')) {
-            throw new AccessDeniedHttpException();
-        }
         $violation = $this->getDoctrine()->getRepository('AppBundle:Violation')->find($violationId);
         $session = $request->getSession();
         $session->set('referrer', $request->server->get('HTTP_REFERER'));
