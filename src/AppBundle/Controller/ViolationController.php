@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Class ViolationController
@@ -25,6 +26,10 @@ class ViolationController extends Controller
      */
     public function violationVideo(Request $request, $violationId)
     {
+        $user = $this->getUser();
+        if (!$user || !$user->hasRole('ROLE_SUPER_ADMIN')) {
+            throw new AccessDeniedHttpException();
+        }
         $violation = $this->getDoctrine()->getRepository('AppBundle:Violation')->find($violationId);
         $session = $request->getSession();
         $session->set('referrer', $request->server->get('HTTP_REFERER'));
@@ -44,8 +49,8 @@ class ViolationController extends Controller
     public function adminUpdateAction(Request $request, $violationId)
     {
         $user = $this->getUser();
-        if (!$user->hasRole('ROLE_SUPER_ADMIN')) {
-            return $this->createAccessDeniedException();
+        if (!$user || !$user->hasRole('ROLE_SUPER_ADMIN')) {
+            throw new AccessDeniedHttpException();
         }
         $em = $this->getDoctrine()->getManager();
         /** @var Violation $violation */
