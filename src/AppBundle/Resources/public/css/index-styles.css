@@ -74,3 +74,7 @@ body{
     top: 4px;
     right: 20px;
 }
+
+.alert-success {
+    margin-top: 15px;
+}

@@ -1,0 +1,14 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+        {% if object.recordingType == 'CAMERA'|enum_constant %}
+            <span class="label label-info">У режимі камери</span>
+        {% else %}
+        {% if object.recordingType == 'RECORDER'|enum_constant %}
+            <span class="label label-info">У режимі реєстратора</span>
+        {% endif %}
+        {% if object.recordingType == 'UPLOAD'|enum_constant %}
+            <span class="label label-info">Окремо завантажене</span>
+        {% endif %}
+    {% endif %}
+{% endblock %}

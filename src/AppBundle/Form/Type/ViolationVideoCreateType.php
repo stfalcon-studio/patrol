@@ -21,20 +21,24 @@ class ViolationVideoCreateType extends AbstractType
             ->add('video', 'file', [
                 'label'       => 'Відеофайл',
                 'constraints' => [
-                    new NotBlank(),
+                    new NotBlank([
+                        'message' => 'Виберіть відео файл!',
+                    ]),
                 ],
             ])
             ->add('latitude', 'hidden')
             ->add('longitude', 'hidden', [
                 'constraints' => [
-                    new NotBlank(),
+                    new NotBlank([
+                        'message' => 'Поставте мітку на карті!',
+                    ]),
                 ],
-                'invalid_message' => 'Поставте мітку на карті!',
             ])
+            ->add('recordingType', 'hidden')
             ->add('date', 'date', [
                 'label'    => 'Дата здійснення правопорушення',
                 'widget'   => 'single_text',
-                'required' => false,
+                'required' => true,
                 'attr'     => [
                     'class' => 'form-control',
                 ],
@@ -46,6 +50,13 @@ class ViolationVideoCreateType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('author_email', 'email', [
+                'label'    => 'Ваша еклектронна пошта',
+                'required' => true,
+                'attr'     => [
+                    'class' => 'form-control',
+                ],
+                ])
             ->add('save', 'submit', [
                 'label' => 'Додати',
                 'attr'  => [
@@ -61,7 +72,7 @@ class ViolationVideoCreateType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Violation',
+            'data_class' => 'AppBundle\Form\Model\ViolationModel',
         ));
     }
 

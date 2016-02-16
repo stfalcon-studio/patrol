@@ -67,6 +67,7 @@ doctrine:
             enum: string
         types:
             VideoStatusType: AppBundle\DBAL\Types\VideoStatusType
+            VideoRecordingType: AppBundle\DBAL\Types\VideoRecordingType
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"

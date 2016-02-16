@@ -4,6 +4,7 @@ namespace AppBundle\Controller\API;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\Violation;
+use AppBundle\Form\Model\ViolationModel;
 use FOS\UserBundle\Model\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -181,6 +182,7 @@ class UserController extends Controller
      *      {"name"="date", "dataType"="date", "required"=false, "description"="date of violation"},
      *      {"name"="latitude", "dataType"="float", "required"=true, "description"="photo latitude"},
      *      {"name"="longitude", "dataType"="float", "required"=true, "description"="photo longitude"},
+     *      {"name"="recordingType", "dataType"="string", "required"=true, "description"="video uploading type. allowable values: 'camera', 'recorder', 'upload' "},
      *  }
      * )
      *
@@ -192,7 +194,7 @@ class UserController extends Controller
     public function postViolationVideoAction(Request $request, User $user)
     {
         $logger = $this->get('logger');
-        $violation = new Violation();
+        $violationModel = new ViolationModel();
         /** @var File $file */
         $file = $request->files->get('video');
 
@@ -203,38 +205,40 @@ class UserController extends Controller
         if (!$user) {
             $logger->error('Даного користувача не існує');
 
-            return new JsonResponse(
-                [
+            return new JsonResponse([
                     'message' => 'Даного користувача не існує',
-                ],
-                404
-            );
+            ], 404);
         }
 
         $data['longitude'] = $request->request->get('longitude');
         $data['latitude'] = $request->request->get('latitude');
         $data['date'] = $request->request->get('date');
         $data['carNumber'] = $request->request->get('carNumber');
+        $data['recordingType'] = $request->get('recordingType');
         if (!$data['longitude'] || !$data['latitude']) {
             $logger->error('Не вказано координати');
 
-            return new JsonResponse(
-                [
-                    'message' => 'Не вказано координати',
-                ],
-                400
-            );
+            return new JsonResponse([
+                'message' => 'Не вказано координати',
+            ], 400);
         }
 
-        $form = $this->createForm('violation_video_form', $violation, array('csrf_protection' => false));
+        $form = $this->createForm('violation_video_form', $violationModel, array('csrf_protection' => false));
         $form->submit($data);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $violation->setAuthor($user);
+            $em        = $this->getDoctrine()->getManager();
+            $violation = new Violation();
+
             $violation->setApproved(false);
-            $violation->setLatitude($data['latitude']);
-            $violation->setLongitude($data['longitude']);
+            $violation->setRecordingType($violationModel->getRecordingType());
+            $violation->setStatus($violationModel->getStatus());
+            $violation->setDate($violationModel->getDate());
+            $violation->setLatitude($violationModel->getLatitude());
+            $violation->setLongitude($violationModel->getLongitude());
+            $violation->setVideo($violationModel->getVideo());
+            $violation->setCarNumber($violationModel->getCarNumber());
+            $violation->setAuthor($user);
 
             $em->persist($violation);
             $em->flush();
@@ -244,14 +248,11 @@ class UserController extends Controller
             return new JsonResponse(['message' => $form->getErrorsAsString(), 400]);
         }
 
-        return new JsonResponse(
-            [
+        return new JsonResponse([
                 'latitude' => $violation->getLatitude(),
                 'longitude' => $violation->getLongitude(),
                 'video_path' => $violation->getVideoWebPath(),
                 'author' => $user->getId(),
-            ],
-            201
-        );
+            ], 201);
     }
 }

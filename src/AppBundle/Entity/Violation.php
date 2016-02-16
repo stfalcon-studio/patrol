@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\DBAL\Types\VideoStatusType;
+use AppBundle\DBAL\Types\VideoRecordingType;
 use Doctrine\ORM\Mapping as ORM;
 use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\HttpFoundation\File\File;
@@ -110,6 +111,12 @@ class Violation
      * @DoctrineAssert\Enum(entity="AppBundle\DBAL\Types\VideoStatusType")
      */
     private $status = VideoStatusType::READY;
+
+    /**
+     * @ORM\Column(name="recording_type", type="VideoRecordingType", nullable=false)
+     * @DoctrineAssert\Enum(entity="AppBundle\DBAL\Types\VideoRecordingType")
+     */
+    private $recordingType = VideoRecordingType::UPLOAD;
 
     /**
      * @var User $author Author
@@ -239,6 +246,22 @@ class Violation
     public function setLongitude($longitude)
     {
         $this->longitude = $longitude;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecordingType()
+    {
+        return $this->recordingType;
+    }
+
+    /**
+     * @param mixed $recordingType
+     */
+    public function setRecordingType($recordingType)
+    {
+        $this->recordingType = $recordingType;
     }
 
     /**

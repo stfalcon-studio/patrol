@@ -2,13 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use AppBundle\Entity\Violation;
+use AppBundle\Form\Model\ViolationModel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -113,17 +114,61 @@ class ViolationController extends Controller
      */
     public function createVideoViolationAction(Request $request)
     {
-        $form = $this->createForm('violation_video_form', new Violation());
+        $form = $this->createForm('violation_video_form', new ViolationModel());
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            /** @var Violation $violation */
-            $violation = $form->getData();
+            /** @var ViolationModel $violationModel */
+            $violationModel = $form->getData();
+            $violation      = new Violation();
+
             $violation->setApproved(false);
-            $em = $this->getDoctrine()->getManager();
+            $violation->setRecordingType($violationModel->getRecordingType());
+            $violation->setStatus($violationModel->getStatus());
+            $violation->setDate($violationModel->getDate());
+            $violation->setLatitude($violationModel->getLatitude());
+            $violation->setLongitude($violationModel->getLongitude());
+            $violation->setVideo($violationModel->getVideo());
+            $violation->setCarNumber($violationModel->getCarNumber());
+
+            $em          = $this->getDoctrine()->getManager();
+            $authorEmail = $violationModel->getAuthorEmail();
+
+            $userManager = $this->get('fos_user.user_manager');
+            /** @var User $user */
+            $user = $userManager->findUserByEmail($authorEmail);
+
+            $fromAddress = $this->container->getParameter('mailer_from');
+            $fromName = $this->container->getParameter('mailer_name');
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Громадський патруль')
+                ->setFrom(array($fromAddress => $fromName))
+                ->setTo(array($authorEmail));
+
+            if (!$user instanceof User) {
+                $user = $userManager->createUser();
+                $password = uniqid();
+                $user->setEmail($authorEmail);
+                $user->setPlainPassword($password);
+                $user->setEnabled(true);
+
+                $message->setBody(
+                    $this->renderView('AppBundle:mail:registration_mail.html.twig'),
+                    'text/html'
+                );
+
+                $this->get('mailer')->send($message);
+
+                $em->persist($user);
+            }
+
+            $violation->setAuthor($user);
+
+
             $em->persist($violation);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('notice', 'Your item was added!');
+
+            $this->get('session')->getFlashBag()->add('notice', 'Правопорушення успішно додано!');
 
             return $this->redirect($this->generateUrl('homepage'));
         }

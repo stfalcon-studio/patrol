@@ -54,28 +54,40 @@ class ViolationAdmin extends Admin
     {
         $listMapper
             ->add('carNumber', 'text', [
+                'label'    => 'Номер порушника',
                 'editable' => true,
             ])
             ->add('approved', 'boolean', [
+                'label'    => 'Підтвердження',
                 'editable' => true,
             ])
-            ->add('photoImageName', 'text', [
+            ->add('videoImageName', 'text', [
                 'label'    => 'Фото/Відео',
                 'template' => 'admin/photo-view.html.twig',
             ])
+            ->add('recordingType', 'text', [
+                'label'    => 'Тип запису',
+                'template' => 'admin/uploading-type-view.html.twig',
+            ])
             ->add('latitude', 'text', [
+                'label'    => 'Широта',
                 'editable' => true,
             ])
             ->add('longitude', 'text', [
+                'label'    => 'Довгота',
                 'editable' => true,
             ])
-            ->add('date', 'datetime', array('date_format' => 'yyyy-MM-dd HH:mm:ss'))
-            ->add('author')
+            ->add('date', 'datetime', [
+                'date_format' => 'yyyy-MM-dd HH:mm:ss',
+                'label'       => 'Дата здійснення',
+            ])
+            ->add('author', null, [
+                'label' => 'Автор',
+            ])
             ->add('_action', 'actions', [
                 'actions' => [
                     'delete' => [],
                 ],
             ]);
     }
-
 }

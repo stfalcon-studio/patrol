@@ -6,7 +6,6 @@ use Fresh\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
 
 /**
  * Class VideoStatusType
- * @package AppBundle\DBAL\Types
  */
 class VideoStatusType extends AbstractEnumType
 {
