@@ -215,6 +215,11 @@ class UserController extends Controller
         $data['date'] = $request->request->get('date');
         $data['carNumber'] = $request->request->get('carNumber');
         $data['recordingType'] = $request->get('recordingType');
+
+        if (!$data['recordingType']) {
+            $data['recordingType'] = 'register';
+        }
+
         if (!$data['longitude'] || !$data['latitude']) {
             $logger->error('Не вказано координати');
 
