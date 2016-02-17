@@ -61,21 +61,13 @@ class ViolationAdmin extends Admin
                 'label'    => 'Підтвердження',
                 'editable' => true,
             ])
-            ->add('videoImageName', 'text', [
+            ->add('photoImageName', 'text', [
                 'label'    => 'Фото/Відео',
                 'template' => 'admin/photo-view.html.twig',
             ])
             ->add('recordingType', 'text', [
                 'label'    => 'Тип запису',
                 'template' => 'admin/uploading-type-view.html.twig',
-            ])
-            ->add('latitude', 'text', [
-                'label'    => 'Широта',
-                'editable' => true,
-            ])
-            ->add('longitude', 'text', [
-                'label'    => 'Довгота',
-                'editable' => true,
             ])
             ->add('date', 'datetime', [
                 'date_format' => 'yyyy-MM-dd HH:mm:ss',

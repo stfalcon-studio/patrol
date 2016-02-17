@@ -23,7 +23,7 @@ class RecordingTypeSetCommand extends ContainerAwareCommand
     {
         $em  = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $violations = $em->getRepository('AppBundle:Violation')->findBy(['recordingType' => null]);
+        $violations = $em->getRepository('AppBundle:Violation')->findBy(['recordingType' => VideoRecordingType::CAMERA]);
         foreach ($violations as $violation) {
             if ($violation->getAuthor() !== null) {
                 $violation->setRecordingType(VideoRecordingType::RECORDER);
