@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\API;
 
+use AppBundle\DBAL\Types\VideoRecordingType;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Violation;
 use AppBundle\Form\Model\ViolationModel;
@@ -217,7 +218,7 @@ class UserController extends Controller
         $data['recordingType'] = $request->get('recordingType');
 
         if (!$data['recordingType']) {
-            $data['recordingType'] = 'register';
+            $data['recordingType'] = VideoRecordingType::RECORDER;
         }
 
         if (!$data['longitude'] || !$data['latitude']) {
