@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\API;
 
 use AppBundle\DBAL\Types\VideoRecordingType;
+use AppBundle\DBAL\Types\VideoStatusType;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Violation;
 use AppBundle\Form\Model\ViolationModel;
@@ -195,6 +196,12 @@ class UserController extends Controller
     public function postViolationVideoAction(Request $request, User $user)
     {
         $logger = $this->get('logger');
+        $convertingTypes = [
+            'video/x-msvideo',
+            'video/msvideo',
+            'video/x-msvideo',
+            'video/3gpp',
+        ];
         $violationModel = new ViolationModel();
         /** @var File $file */
         $file = $request->files->get('video');
@@ -238,13 +245,16 @@ class UserController extends Controller
 
             $violation->setApproved(false);
             $violation->setRecordingType($violationModel->getRecordingType());
-            $violation->setStatus($violationModel->getStatus());
             $violation->setDate($violationModel->getDate());
             $violation->setLatitude($violationModel->getLatitude());
             $violation->setLongitude($violationModel->getLongitude());
             $violation->setVideo($violationModel->getVideo());
             $violation->setCarNumber($violationModel->getCarNumber());
             $violation->setAuthor($user);
+
+            if (in_array($file->getMimeType(), $convertingTypes)) {
+                $violation->setStatus(VideoStatusType::WAITING);
+            }
 
             $em->persist($violation);
             $em->flush();
