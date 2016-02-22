@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DBAL\Types\VideoStatusType;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Violation;
 use AppBundle\Form\Model\ViolationModel;
@@ -114,6 +115,13 @@ class ViolationController extends Controller
      */
     public function createVideoViolationAction(Request $request)
     {
+        $convertingTypes = [
+            'video/x-msvideo',
+            'video/msvideo',
+            'video/x-msvideo',
+            'video/3gpp',
+        ];
+
         $form = $this->createForm('violation_video_form', new ViolationModel());
         $form->handleRequest($request);
 
@@ -130,6 +138,10 @@ class ViolationController extends Controller
             $violation->setLongitude($violationModel->getLongitude());
             $violation->setVideo($violationModel->getVideo());
             $violation->setCarNumber($violationModel->getCarNumber());
+
+            if (in_array($violation->getVideo()->getMimeType(), $convertingTypes)) {
+                $violation->setStatus(VideoStatusType::WAITING);
+            }
 
             $em          = $this->getDoctrine()->getManager();
             $authorEmail = $violationModel->getAuthorEmail();
@@ -168,7 +180,7 @@ class ViolationController extends Controller
             $em->persist($violation);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Правопорушення успішно додано!');
+            $this->get('session')->getFlashBag()->add('notice', 'Правопорушення успішно додано, та буде опубліковане після модерації!');
 
             return $this->redirect($this->generateUrl('homepage'));
         }

@@ -17,16 +17,17 @@
 {% block body %}
 <div class="row">
     <div class="col-md-12">
-        <h3 class="create-header">Додати порушення</h3>
         <div class="col-md-10">
             <div class="form-group">
                 <div class="map-block">
+                    <br />
                     <label for="map-violation"><p>Відзначте на карті місце здійснення правопорушення:</p></label>
                     <div id="map-violation"></div>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
+            <br />
             <div class="form-group">
                 {{ form_start(form) }}
                 {% if form.vars.errors|length %}
