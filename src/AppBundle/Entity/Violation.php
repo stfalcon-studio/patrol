@@ -16,14 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Violation
 {
-    const CONVERTING_TYPES = [
-            'video/x-msvideo',
-            'video/msvideo',
-            'video/x-msvideo',
-            'video/3gpp',
-            'video/quicktime',
-        ];
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
