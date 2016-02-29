@@ -3,7 +3,7 @@ set :domain,      "144.76.238.50"
 set :deploy_to,   "/var/www/xn--80awkfjh8d.com"
 set :app_path,    "app"
 
-set :repository,  "git@git.stfalcon.com:dorozhnyj-patrul.git"
+set :repository,  "https://github.com/stfalcon-studio/dorozhnyj-patrul.git"
 set :branch,      "master"
 
 set :scm,         :git
