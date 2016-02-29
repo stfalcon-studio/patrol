@@ -196,12 +196,6 @@ class UserController extends Controller
     public function postViolationVideoAction(Request $request, User $user)
     {
         $logger = $this->get('logger');
-        $convertingTypes = [
-            'video/x-msvideo',
-            'video/msvideo',
-            'video/x-msvideo',
-            'video/3gpp',
-        ];
         $violationModel = new ViolationModel();
         /** @var File $file */
         $file = $request->files->get('video');
@@ -252,7 +246,7 @@ class UserController extends Controller
             $violation->setCarNumber($violationModel->getCarNumber());
             $violation->setAuthor($user);
 
-            if (in_array($file->getMimeType(), $convertingTypes)) {
+            if (in_array($file->getMimeType(), Violation::CONVERTING_TYPES)) {
                 $violation->setStatus(VideoStatusType::WAITING);
             }
 

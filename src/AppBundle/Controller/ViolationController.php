@@ -115,13 +115,6 @@ class ViolationController extends Controller
      */
     public function createVideoViolationAction(Request $request)
     {
-        $convertingTypes = [
-            'video/x-msvideo',
-            'video/msvideo',
-            'video/x-msvideo',
-            'video/3gpp',
-        ];
-
         $form = $this->createForm('violation_video_form', new ViolationModel());
         $form->handleRequest($request);
 
@@ -139,7 +132,7 @@ class ViolationController extends Controller
             $violation->setVideo($violationModel->getVideo());
             $violation->setCarNumber($violationModel->getCarNumber());
 
-            if (in_array($violation->getVideo()->getMimeType(), $convertingTypes)) {
+            if (in_array($violation->getVideo()->getMimeType(), Violation::CONVERTING_TYPES)) {
                 $violation->setStatus(VideoStatusType::WAITING);
             }
 
