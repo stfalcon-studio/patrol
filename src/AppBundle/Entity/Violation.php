@@ -31,7 +31,6 @@ class Violation
     private $photoFilename;
 
     /**
-     *
      * @Assert\Image(
      *      maxWidth  = 5000,
      *      maxHeight = 5000,
@@ -53,12 +52,12 @@ class Violation
     private $videoFilename;
 
     /**
-     * @Assert\File(
-     *     mimeTypes = {"video/mp4", "video/quicktime", "video/3gpp"},
-     *     mimeTypesMessage = "Please upload a valid video"
-     * )
+     * @var File $video
      *
-     * @var File $photo
+     * @Assert\File(
+     *     mimeTypes = {"video/mp4", "video/quicktime", "video/3gpp", "video/x-msvideo", "video/msvideo"},
+     *     mimeTypesMessage = "Відео повинно бути у форматі mp4, avi, 3gp, mov"
+     * )
      */
     private $video;
 
@@ -363,9 +362,6 @@ class Violation
         }
         if (null !== $this->video) {
             $this->videoFilename = $this->getSubPath().uniqid().'.'.$this->video->guessExtension();
-            if ($this->video->getMimeType() == 'video/3gpp') {
-                $this->setStatus(VideoStatusType::WAITING);
-            }
         }
     }
 

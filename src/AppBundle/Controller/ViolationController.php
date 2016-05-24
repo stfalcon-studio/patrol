@@ -118,10 +118,10 @@ class ViolationController extends Controller
         $convertingTypes = [
             'video/x-msvideo',
             'video/msvideo',
-            'video/x-msvideo',
             'video/3gpp',
             'video/quicktime',
         ];
+        $errors = '';
 
         $form = $this->createForm('violation_video_form', new ViolationModel());
         $form->handleRequest($request);
@@ -188,6 +188,7 @@ class ViolationController extends Controller
 
         return $this->render('@App/violation/create_video_violation.html.twig', [
             'form' => $form->createView(),
+
         ]);
     }
 }

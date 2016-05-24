@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -19,10 +20,21 @@ class ViolationVideoCreateType extends AbstractType
     {
         $builder
             ->add('video', 'file', [
-                'label'       => 'Відеофайл',
-                'constraints' => [
+                'label'          => 'Відеофайл',
+                'error_bubbling' => true,
+                'constraints'    => [
                     new NotBlank([
                         'message' => 'Виберіть відео файл!',
+                    ]),
+                    new File([
+                        'mimeTypes' => [
+                            'video/x-msvideo',
+                            'video/msvideo',
+                            'video/3gpp',
+                            'video/quicktime',
+                            'video/mp4',
+                        ],
+                        'mimeTypesMessage' => 'Відео повинно бути у форматі mp4, avi, 3gp, mov',
                     ]),
                 ],
             ])
