@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class UserController
@@ -74,7 +75,9 @@ class UserController extends Controller
             $user->setEnabled(true);
 
             $message->setBody(
-                $this->renderView('AppBundle:mail:registration_mail.html.twig'),
+                $this->renderView('AppBundle:mail:registration_mail.html.twig', [
+                    'homepage' => $this->generateUrl('homepage', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ]),
                 'text/html'
             );
 
