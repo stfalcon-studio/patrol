@@ -21,13 +21,14 @@ class ViolationVideoCreateType extends AbstractType
         $builder
             ->add('video', 'file', [
                 'label'          => 'Відеофайл',
+                'required'       => false,
                 'error_bubbling' => true,
                 'constraints'    => [
                     new NotBlank([
-                        'message' => 'Виберіть відео файл!',
+                        'message' => 'Виберіть відео-файл!',
                     ]),
                     new File([
-                        'mimeTypes' => [
+                        'mimeTypes'        => [
                             'video/x-msvideo',
                             'video/msvideo',
                             'video/3gpp',
@@ -63,19 +64,18 @@ class ViolationVideoCreateType extends AbstractType
                 ],
             ])
             ->add('author_email', 'email', [
-                'label'    => 'Ваша еклектронна пошта',
+                'label'    => 'Ваша електронна пошта',
                 'required' => true,
                 'attr'     => [
                     'class' => 'form-control',
                 ],
-                ])
+            ])
             ->add('save', 'submit', [
                 'label' => 'Додати',
                 'attr'  => [
                     'class' => 'btn-success form-control',
                 ],
             ]);
-
     }
 
     /**
@@ -83,9 +83,9 @@ class ViolationVideoCreateType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Form\Model\ViolationModel',
-        ));
+        ]);
     }
 
     /**

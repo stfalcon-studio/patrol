@@ -1,6 +1,17 @@
-<p>{% trans %}Вітаємо!{% endtrans %}</p>
+<p>{% trans %}<b>Вітаємо!</b>{% endtrans %}</p>
 
-<p>{% trans %}Додати нове порушення правил дорожнього руху можна, перейшовши за посиланням:{% endtrans %} <a href="http://патруль.com">патруль.com</a></p>
+<p>{% trans %}Додати нове порушення правил дорожнього руху можна, перейшовши за посиланням:{% endtrans %}
+    <a href="{{ homepage }}">патруль.com</a></p>
 <p>{% trans %}Країна повинна знати своїх "героїв"!{% endtrans %}</p>
 
-<p>{% trans %}З повагою,<br />команда проекту Громадський патруль{% endtrans %}</p>
+<div style="float: right;">
+    <p>
+        <img src="{{ asset('cover-mail.png', null, true) }}" alt="Громадський патруль" width="217" height="80" />
+    </p>
+    <p>
+        З повагою,
+        <br />команда "Громадського патруля"
+        <br />сайт: <a href="{{ homepage }}">патруль.com</a>
+        <br />соцмережа <a href="https://www.facebook.com/GromadskyiPatrul/">ФБ</a>
+    </p>
+</div>

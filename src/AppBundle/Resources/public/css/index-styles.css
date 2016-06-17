@@ -31,20 +31,31 @@ body{
 }
 
 #main, #main>.row {
-    height:100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-#main>.row {
-    overflow-y:scroll;
-}
-
-#left {
+#left, #list {
     height:100%;
+}
+#list {
+    padding-right: 0;
+}
+.sidebar-scroll {
+    overflow-y: scroll;
+    height: 100%;
+    padding-bottom: 85px;
+    padding-right: 15px;
 }
 
 #map-violation {
-    width: 100%;
-    height: 800px;
+    width:100%;
+    position:absolute;
+    top: 51px;
+    right: 0;
+    bottom:0;
+    left: 0;
+    overflow:hidden;
 }
 
 .create-header {
@@ -55,8 +66,8 @@ body{
     width:100%;
     height:100%;
     position:absolute;
-    right: 5px;
-    left: 5px;
+    right: 0;
+    left: 0;
     bottom:0;
     overflow:hidden;
 }
@@ -68,11 +79,8 @@ body{
     right: 20px;
 }
 
-.link-app {
-    display: block;
-    position: absolute;
-    top: 4px;
-    right: 20px;
+.link-app-store {
+    right: 144px;
 }
 
 .alert-success {
@@ -81,4 +89,107 @@ body{
 
 .fancybox-wrap {
     width: 80% !important;
+}
+
+
+.footer {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+51,ffffff+100&amp;0+1,0.7+51,0.86+100 */
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.7) 51%, rgba(255, 255, 255, 0.86) 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(1%, rgba(255, 255, 255, 0)), color-stop(51%, rgba(255, 255, 255, 0.7)), color-stop(100%, rgba(255, 255, 255, 0.86)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.7) 51%, rgba(255, 255, 255, 0.86) 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.7) 51%, rgba(255, 255, 255, 0.86) 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.7) 51%, rgba(255, 255, 255, 0.86) 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.7) 51%, rgba(255, 255, 255, 0.86) 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#dbffffff', GradientType=0);
+    /* IE6-9 */
+    padding: 0px 20px 6px;
+    position: absolute;
+    height: 65px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+}
+.footer .copyright {
+    margin-top: 25px;
+    color: #727272;
+    font-size: 10px;
+    line-height: 15px;
+    width: 310px;
+    float: left;
+}
+.footer .copyright:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.footer .copyright a {
+    color: inherit;
+    text-decoration: underline;
+}
+.footer .copyright a:hover {
+    text-decoration: none;
+}
+.footer .soc_shares {
+    font-size: 12px;
+    margin-top: 33px;
+    text-align: center;
+}
+.footer .soc_shares a {
+    color: #039be5;
+    text-decoration: underline;
+    margin-right: 300px;
+    font-weight: 600;
+}
+.footer .soc_shares a .icon_facebook {
+    margin-right: 6px;
+}
+.footer .soc_shares a span {
+    vertical-align: middle;
+}
+.footer .soc_shares a:hover {
+    text-decoration: none;
+}
+.icon_facebook {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjEycHgiIGhlaWdodD0iMTJweCIgdmlld0JveD0iMCAwIDEyIDEyIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBza2V0Y2h0b29sIDMuNCAoMzU2KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5pY29uLWZiPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBza2V0Y2h0b29sLjwvZGVzYz4KICAgIDxkZWZzPjwvZGVmcz4KICAgIDxnIGlkPSJNYWluLU1hcCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc2tldGNoOnR5cGU9Ik1TUGFnZSI+CiAgICAgICAgPGcgaWQ9Im1haW4tcGFnZS1tYXAiIHNrZXRjaDp0eXBlPSJNU0FydGJvYXJkR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC03MjQuMDAwMDAwLCAtNzc3LjAwMDAwMCkiPgogICAgICAgICAgICA8ZyBpZD0iRGVza3RvcC9Gb290ZXIiIHNrZXRjaDp0eXBlPSJNU0xheWVyR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAwMDAwLCA3NDEuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8ZyBpZD0i0J/QvtGI0LjRgNC40YLQuC3Qsi1GYWNlYm9vay0rLdCf0ZbQtNGC0YDQuNC80LDRgtC4LdC/0YDQvtC10LrRgiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTY0LjAwMDAwMCwgMzMuMDAwMDAwKSIgc2tldGNoOnR5cGU9Ik1TQml0bWFwTGF5ZXIiPgogICAgICAgICAgICAgICAgICAgIDxpbWFnZSBpZD0iaWNvbi1mYiIgeD0iMTYwIiB5PSIzIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQXdBQUFBTUNBWUFBQUJXZFZ6bkFBQUFCR2RCVFVFQUFMR1BDL3hoQlFBQUFOdEpSRUZVS0JWamJKMjA2LyttblpjWmlBRitiam9NakpaQjAvOHpzYklSbzU3aDMrOWZEQ3k0Rk11STh6T1VwRm94Nkd1SU14dzY5WkNoZnRKK0JwQmFGbHhHMStmWk1XZ3FpNEtsT2RnWjRjcHdhdEJRZ2lqMmpaL044T2JqRHdabURtNndKaWE0VmpRR0k5VFE5ejhZNFlwQlNoaXR3K2YrUjFhN2RrbzRnN2dJeERTWStQdFBQeGg4MDVhQnVSZzIvUC8vRDZZT1RqOTU5Z0hPeHJEaHo5ZFBEQXhBVFNlMkZJRVZXZmowTVRBeXN6QXdjL0tBK1JpZVp1SG1nNXNHWXJEd0NLRHdNWnlFSW91RncrVHRvSXBGR0x1UWw3MHFBd0JwR1RNQUg2MzNVZ0FBQUFCSlJVNUVya0pnZ2c9PSI+PC9pbWFnZT4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+");
+    background-repeat: no-repeat;
+}
+.footer {
+    width: 83.33333%;
+}
+
+.choose-file {
+    display: block;
+}
+.choose-file label {
+    display: block;
+}
+.choose-file input[type=file] {
+    display: none;
+}
+.btn-upload {
+    display: block;
+}
+.filename {
+    white-space: normal;
+    word-break: break-all;
+}
+
+.height-100 {
+    height: 100%;
+}
+.padding-none {
+    padding: 0;
+}
+.map-label {
+    padding-left: 20px;
 }
