@@ -140,21 +140,14 @@ body{
     font-size: 12px;
     margin-top: 33px;
     text-align: center;
-}
-.footer .soc_shares a {
-    color: #039be5;
-    text-decoration: underline;
     margin-right: 300px;
-    font-weight: 600;
 }
-.footer .soc_shares a .icon_facebook {
+.footer .soc_shares .icon_facebook {
     margin-right: 6px;
+    margin-bottom: 6px;
 }
-.footer .soc_shares a span {
+.footer .soc_shares span {
     vertical-align: middle;
-}
-.footer .soc_shares a:hover {
-    text-decoration: none;
 }
 .icon_facebook {
     width: 12px;
