@@ -17,10 +17,10 @@
 {% block body %}
     <div class="container-fluid" id="main">
         <div class="row">
-            <div class="col-xs-10" id="left">
+            <div class="col-md-10" id="left">
                 <div id="map"></div>
             </div>
-            <div class="col-xs-2" id="list">
+            <div class="col-md-2" id="list">
                 {% for flashMessage in app.session.flashbag.get('notice') %}
                     <div class="alert alert-success" role="alert">
                         {{ flashMessage }}
