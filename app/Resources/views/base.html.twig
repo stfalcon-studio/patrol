@@ -37,12 +37,25 @@
                 </ul>
             </div>
 
+            <a target="_blank" class="link-app link-app-store" href="https://itunes.apple.com/ua/app/gromads-kij-patrul/id1035090014">
+                <img width="120" alt="Get it on App Store" src="{{ asset('app_store.png') }}" />
+            </a>
             <a target="_blank" class="link-app" href="https://play.google.com/store/apps/details?id=com.stfalcon.hromadskyipatrol">
-                <img width="120" alt="Get it on Google Play"
-                     src="{{ asset('google_play.png') }}" />
+                <img width="120" alt="Get it on Google Play" src="{{ asset('google_play.png') }}" />
             </a>
         </div>
         {% block body %}{% endblock %}
+        <footer class="footer">
+            <div class="copyright">
+                <p>
+                    2014–{{ 'now'|date('Y') }} © Громадський патруль, зроблено у студії <a href="http://stfalcon.com/">stfalcon.com</a> Електронна пошта <a href="mailto:patrul@stfalcon.com">patrul@stfalcon.com</a>
+                </p>
+            </div>
+            <div class="soc_shares">
+                <span class="icon_facebook"></span>
+                <iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Fxn--80awkfjh8d.com%2F&layout=link&mobile_iframe=true&appId=1369279419765831&width=125&height=14" width="125" height="14" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+            </div>
+        </footer>
     </body>
     {% block javascripts %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

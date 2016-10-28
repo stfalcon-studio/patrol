@@ -28,30 +28,28 @@
                 {% endfor %}
                 <h2>Список порушників</h2>
                 <hr>
-                {% if violations is not empty %}
-                    {% for violation in violations %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><a
-                                        id="violation_{{ violation.id }}"
-                                        data-latitude="{{ violation.latitude }}"
-                                        data-longitude="{{ violation.longitude }}"
-                                        data-image="{{ violation.photoFilename }}"
-                                        data-video="{{ violation.videoFilename }}"
-                                        href="#">
-                                    {{ violation.carNumber }}
-                                </a>
+                <div class="sidebar-scroll">
+                    {% if violations is not empty %}
+                        {% for violation in violations %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><a
+                                            id="violation_{{ violation.id }}"
+                                            data-latitude="{{ violation.latitude }}"
+                                            data-longitude="{{ violation.longitude }}"
+                                            data-image="{{ violation.photoFilename }}"
+                                            data-video="{{ violation.videoFilename }}"
+                                            href="#">
+                                        {{ violation.carNumber }}
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <h4>Немає порушень</h4>
-                {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <h4>Немає порушень</h4>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <a class="link-app" href="https://play.google.com/store/apps/details?id=com.stfalcon.hromadskyipatrol">
-            <img width="120" alt="Get it on Google Play"
-                 src="https://developer.android.com/images/brand/uk_generic_rgb_wo_60.png" />
-        </a>
     </div>
 {% endblock %}
 {% block javascripts %}

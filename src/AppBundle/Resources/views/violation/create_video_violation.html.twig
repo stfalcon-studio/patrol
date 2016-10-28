@@ -15,45 +15,52 @@
 {% endblock javascripts %}
 
 {% block body %}
-<div class="row">
-    <div class="col-md-12">
-        <div class="col-md-10">
-            <div class="form-group">
-                <div class="map-block">
+    <div class="container-fluid" id="main">
+        <div class="row">
+            <div class="col-md-12 height-100 padding-none">
+                <div id="left" class="col-md-10 height-100 padding-none">
+                    <div class="form-group height-100">
+                        <div class="map-block height-100">
+                            <br />
+                            <label for="map-violation" class="map-label"><p>Відзначте на карті місце здійснення правопорушення:</p>
+                            </label>
+                            <div id="map-violation"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
                     <br />
-                    <label for="map-violation"><p>Відзначте на карті місце здійснення правопорушення:</p></label>
-                    <div id="map-violation"></div>
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                        {% if form.vars.errors|length %}
+                            <div class="alert alert-danger">
+                                {{ form_errors(form) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.date) }}
+                        {{ form_widget(form.date) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.carNumber) }}
+                        {{ form_widget(form.carNumber) }}
+                    </div>
+                    <div class="form-group">
+                        <label class="choose-file">
+                            {{ form_label(form.video) }}
+                            {{ form_widget(form.video) }}
+                            <span class="btn btn-primary btn-upload">Виберіть файл</span>
+                        </label>
+                        <span class="filename"></span>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.author_email) }}
+                        {{ form_widget(form.author_email) }}
+                    </div>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-            <br />
-            <div class="form-group">
-                {{ form_start(form) }}
-                {% if form.vars.errors|length %}
-                    <div class="alert alert-danger">
-                        {{ form_errors(form) }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                {{ form_label(form.date) }}
-                {{ form_widget(form.date) }}
-            </div>
-            <div class="form-group">
-                {{ form_label(form.carNumber) }}
-                {{ form_widget(form.carNumber) }}
-            </div>
-            <div class="form-group">
-                {{ form_label(form.video) }}
-                {{ form_widget(form.video) }}
-            </div>
-            <div class="form-group">
-                {{ form_label(form.author_email) }}
-                {{ form_widget(form.author_email) }}
-            </div>
-            {{ form_end(form) }}
-        </div>
     </div>
-</div>
 {% endblock body %}
